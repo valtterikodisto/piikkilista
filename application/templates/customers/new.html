@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <div>
+        <form method="POST" action="{{ url_for('customers_create')}}">
+            <div>
+                <label for="first_name">Etunimi:</label>
+                <input type="text" name="first_name" />
+            </div>
+
+            <div>
+                <label for="middle_name">Toinen nimi:</label>
+                <input type="text" name="middle_name" />
+            </div>
+
+            <div>
+                <label for="last_name">Sukunimi:</label>
+                <input type="text" name="last_name" />
+            </div>
+
+            <div>
+                <label for="balance">Piikki:</label>
+                <input type="number" name="balance" />
+            </div>
+
+            <div>
+                <label for="organization_id">Järjestö:</label>
+                <select name="organization_id">
+                    <option value="1">Järjestö 1</option>
+                    <option value="2">Järjestö 2</option>
+                </select>
+            </div>
+
+            <div>
+                <input type="submit" value="Lisää asiakas" />
+            </div>
+        </form>
+    </div>
+{% endblock %}
