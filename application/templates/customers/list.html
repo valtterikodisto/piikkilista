@@ -1,12 +1,14 @@
 {% extends "layout.html" %}
 
 {% block body %}
+    <a href="{{ url_for('customers_form') }}">Lisää asiakkaita</a>
+
     <table>
         <tr>
             <th></th>
             <th>Etunimi</th>
-            <th>Toinen nimi</th>
             <th>Sukunimi</th>
+            <th>Syntymäpäivä</th>
             <th>Piikki</th>
             <th>Järjestö</th>
         </tr>
@@ -17,9 +19,9 @@
                 <a href="{{ url_for('customer_details', customer_id=customer.id) }}">Historia</a>
             </td>
             <td>{{ customer.first_name }}</td>
-            <td>{{ customer.middle_name }}</td>
             <td>{{ customer.last_name }}</td>
-            <td>{{ customer.balance }}</td>
+            <td>{{ customer.birthday }}</td>
+            <td>{{ customer.get_balance_in_euros() }} €</td>
             <td>{{ customer.organization.name }}</td>
         </tr>
         {% endfor %}

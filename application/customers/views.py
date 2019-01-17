@@ -17,8 +17,8 @@ def customers_create():
 
     new_customer = Customer (
         request.form.get("first_name"),
-        request.form.get("middle_name"),
         request.form.get("last_name"),
+        request.form.get("birthday"),
         request.form.get("organization_id"),
         request.form.get("balance")
     )

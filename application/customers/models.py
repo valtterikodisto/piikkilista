@@ -8,13 +8,17 @@ class Customer(db.Model):
 
     organization_id = db.Column(db.Integer, db.ForeignKey('organization.id'), nullable=False)
     first_name = db.Column(db.String(50), nullable=False)
-    middle_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
+    birthday = db.Column(db.Integer, nullable=False)
     balance = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, first_name, middle_name, last_name, organization_id, balance):
+    def __init__(self, first_name, last_name, birthday, organization_id, balance):
         self.first_name = first_name
-        self.middle_name = middle_name
         self.last_name = last_name
+        self.birthday = birthday
         self.balance = balance
         self.organization_id = organization_id
+
+    def get_balance_in_euros(self):
+        balance_in_euros = self.balance / 100
+        return round(balance_in_euros, 2)

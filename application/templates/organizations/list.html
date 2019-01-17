@@ -1,6 +1,8 @@
 {% extends "layout.html" %}
 
 {% block body %}
+    <a href="{{ url_for('organizations_form') }}">Lisää järjestöjä</a>
+
     <ul>
         {% for organization in organizations %}
         <li>{{ organization.name }}</li>

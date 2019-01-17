@@ -1,23 +1,15 @@
 {% extends "layout.html" %}
 
 {% block body %}
-    <h1>
-        {{ customer.first_name }} 
-        {{ customer.middle_name }} 
-        {{ customer.last_name }}
-    </h1>
-    <h2>
-        {{ customer.organization.name }}
-    </h2>
-    <h2>
-        Piikki: {{ customer.balance }}
-    </h2>
-    <h3>
-        Luotu: {{ customer.date_created }}
-    </h3>
-    <h3>
-        Muokattu: {{ customer.date_modified }}
-    </h3>
+    <h1>{{ customer.first_name }} {{ customer.last_name }} ({{ customer.birthday }})</h1>
+
+    <h2>{{ customer.organization.name }}</h2>
+
+    <h2>Piikki: {{ customer.get_balance_in_euros() }} €</h2>
+
+    <h3>Luotu: {{ customer.date_created }}</h3>
+
+    <h3>Muokattu: {{ customer.date_modified }}</h3>
 
     <!-- PURCHASES HERE -->
 {% endblock %}

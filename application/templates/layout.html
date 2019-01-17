@@ -8,9 +8,9 @@
 <body>
 
     <nav>
-        <a href="#">Content</a>
-        <a href="#">Content</a>
-        <a href="#">Content</a>
+        <a href="{{ url_for('home') }}">Etusivu</a>
+        <a href="{{ url_for('customers_index') }}">Asiakkaat</a>
+        <a href="{{ url_for('organizations_index') }}">Järjestöt</a>
     </nav>
 
     {% block body %}
