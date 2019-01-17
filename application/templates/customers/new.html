@@ -26,8 +26,9 @@
             <div>
                 <label for="organization_id">Järjestö:</label>
                 <select name="organization_id">
-                    <option value="1">Järjestö 1</option>
-                    <option value="2">Järjestö 2</option>
+                    {% for organization in organizations %}
+                    <option value="{{ organization.id }}">{{ organization.name }}</option>
+                    {% endfor %}
                 </select>
             </div>
 

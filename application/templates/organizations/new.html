@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <div>
+        <form method="POST" action="{{ url_for('organizations_create')}}">
+            <div>
+                <label for="name">Järjestön nimi:</label>
+                <input type="text" name="name" />
+            </div>
+
+            <div>
+                <input type="submit" value="Lisää järjestö" />
+            </div>
+        </form>
+    </div>
+{% endblock %}

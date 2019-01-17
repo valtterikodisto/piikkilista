@@ -1,10 +1,11 @@
 from application import app, db
 from flask import redirect, render_template, request, url_for
 from application.customers.models import Customer
+from application.organizations.models import Organization
 
 @app.route("/customers/new")
 def customers_form():
-    return render_template("customers/new.html")
+    return render_template("customers/new.html",  organizations=Organization.query.all())
 
 @app.route("/customers", methods=["GET"])
 def customers_index():

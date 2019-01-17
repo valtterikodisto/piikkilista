@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <ul>
+        {% for organization in organizations %}
+        <li>{{ organization.name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

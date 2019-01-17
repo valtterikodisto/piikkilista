@@ -8,9 +8,8 @@ app.config["SQLALCHEMY_ECHO"] = True
 
 db = SQLAlchemy(app)
 
-from application import views
-
 from application.customers import models, views
+from application.organizations import models, views
 
 
 db.create_all()
