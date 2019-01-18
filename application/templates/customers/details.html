@@ -11,5 +11,21 @@
 
     <h3>Muokattu: {{ customer.date_modified }}</h3>
 
+    {% if user_block is not none %}
+        <h3>Esto loppuu: {{ user_block.date_end }}</h3>
+    {% else %}
+        <form method="POST" action="{{ url_for('customers_block', customer_id=customer.id) }}">
+
+            <div>
+                <label>Eston loppuminen:</label>
+                <input type="date" name="date_end" />
+            </div>
+
+            <div>
+                <input type="submit" value="Estä käyttäjä" />
+            </div>
+        </form>
+    {% endif %}
+
     <!-- PURCHASES HERE -->
 {% endblock %}

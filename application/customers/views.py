@@ -1,7 +1,8 @@
 from application import app, db
 from flask import redirect, render_template, request, url_for
-from application.customers.models import Customer
+from application.customers.models import Customer, Block
 from application.organizations.models import Organization
+from datetime import datetime
 
 @app.route("/customers/new")
 def customers_form():
@@ -29,8 +30,22 @@ def customers_create():
     return redirect(url_for("customers_index"))
 
 @app.route("/customers/<int:customer_id>", methods=["GET"])
-def customer_details(customer_id):
-    customer = Customer.query.get(customer_id)
+def customers_details(customer_id):
+    customer = Customer.query.get_or_404(customer_id)
+    user_block = Block.query.filter_by(customer_id=customer.id).order_by(Block.date_end.desc()).first()
 
-    return render_template("/customers/details.html", customer=customer)
+    return render_template("/customers/details.html", customer=customer, user_block=user_block)
 
+@app.route("/customers/block/<int:customer_id>", methods=["POST"])
+def customers_block(customer_id):
+
+    # Here we need to validate user input
+    new_block = Block (
+        customer_id,
+        datetime.strptime(request.form.get("date_end"), '%Y-%m-%d')
+    )
+
+    db.session().add(new_block)
+    db.session.commit()
+
+    return redirect(url_for("customers_details", customer_id=customer_id))
