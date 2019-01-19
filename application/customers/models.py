@@ -13,7 +13,7 @@ class Customer(db.Model):
     birthday = db.Column(db.Integer, nullable=False)
     balance = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, first_name, last_name, birthday, organization_id, balance):
+    def __init__(self, first_name, last_name, birthday, balance, organization_id):
         self.first_name = first_name
         self.last_name = last_name
         self.birthday = birthday

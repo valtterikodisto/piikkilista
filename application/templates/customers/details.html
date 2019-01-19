@@ -14,18 +14,36 @@
     {% if user_block is not none %}
         <h3>Esto loppuu: {{ user_block.date_end }}</h3>
     {% else %}
-        <form method="POST" action="{{ url_for('customers_block', customer_id=customer.id) }}">
+        <form id="customer_block_form" method="POST" action="{{ url_for('customers_block', customer_id=customer.id) }}">
 
             <div>
-                <label>Eston loppuminen:</label>
-                <input type="date" name="date_end" />
+                {{ form.hidden_tag() }}
+                {{ form.date_end.label }}
+                {{ form.date_end }}
             </div>
 
             <div>
                 <input type="submit" value="Estä käyttäjä" />
             </div>
+            <ul>
+                {% for error in form.date_end.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
         </form>
     {% endif %}
 
     <!-- PURCHASES HERE -->
+
+    <!-- SCRIPTS -->
+    <script>
+        const customer_block_form = document.getElementById('customer_block_form');
+        customer_block_form.onsubmit = function(e){
+            const form = this;
+            e.preventDefault();
+            if(confirm("Haluatko varmasti estää käyttäjän:\n{{ customer.first_name }} {{ customer.last_name }}\n\nEstoa ei voi perua.")) {
+                form.submit();
+            }
+}
+    </script>
 {% endblock %}
