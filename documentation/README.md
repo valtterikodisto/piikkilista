@@ -42,10 +42,20 @@ Demo löytyy osoitteesta: https://tsoha-piikkilista.herokuapp.com/
    Esimerkki: Jos asikkaan syntymäpäivä on 17. päivä Tammikuuta,
    niin syntymäpäivä kirjoitetaan 1701 (vielä toistaiseksi)
    
-5.Lisää asiakkaalle piikki (sentteinä vielä toistaiseksi)
+5. Lisää asiakkaalle piikki (sentteinä vielä toistaiseksi)
 
    Esimerkki: Jos asiakkaalla on piikki 7,50€ positiivisella puolella,
    niin piikki annetaan muodossa 750
    
 6. Anna asiakkaan järjestö (valitse sallituista järjestöistä)
 7. Klikkaa 'Lisää asiakas'
+
+### Asiakkaan esto (pysyvä)
+1. Navigoi yläpalkista löytyvälle 'Asiakkaat' -sivulle
+2. Klikkaa haluamasi asiakkaan riviltä löytyvää 'Historia' -painiketta
+3. Valitse kalenteristä eston loppumisajankohta
+4. Klikkaa 'Estä käyttäjä', jonka vahvista esto painamalla 'OK'
+
+   HUOM! Esto on pysyvä eikä sitä ole mahdollista poistaa. Jos siis
+   estät asiakkaan tietyksi ajanjaksoksi, niin ainut keino poistaa
+   esto on odottaa eston loppumiseen asti.
