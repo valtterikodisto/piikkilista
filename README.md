@@ -28,6 +28,8 @@ Toimintoja:
 ## Demo
 Demo löytyy osoitteesta: https://tsoha-piikkilista.herokuapp.com/
 
+## Toiminnot
+
 ### Järjestöjen lisäys
 1. Navigoi yläpalkista löytyvälle 'Järjestöt' -sivulle
 2. Lisäyssivustolle pääset painamalla 'Lisää järjestöjä' -linkkiä
@@ -35,7 +37,7 @@ Demo löytyy osoitteesta: https://tsoha-piikkilista.herokuapp.com/
 
 ### Asiakkaiden lisäys
 1. Navigoi yläpalkista löytyvälle 'Asiakkaat' -sivulle
-2. Lisäyssivuostlle pääset painamalla 'Lisää asiakas' -linkkiä
+2. Lisäyssivustolle pääset painamalla 'Lisää asiakas' -linkkiä
 3. Lisää asiakkaalle etu- ja sukunimi
 4. Lisää asiakkaalle syntymäpäivä
 
@@ -49,3 +51,24 @@ Demo löytyy osoitteesta: https://tsoha-piikkilista.herokuapp.com/
    
 6. Anna asiakkaan järjestö (valitse sallituista järjestöistä)
 7. Klikkaa 'Lisää asiakas'
+
+### Asiakkaan tietojen päivitys
+1. Navigoi yläpalkista löytyvälle 'Asiakkaat' -sivulle
+2. Valitse haluamasi asiakas ja paina etunimen vasemmalla olevaa linkkiä 'Tiedot'
+3. Klikkaa 'Muokkaa käyttäjän tietoja' nappia ja täytä jokainen kenttä
+4. Klikkaa päivitä tiedot, jolloin tiedot päivittyvät
+
+### Asiakkaan esto (pysyvä)
+1. Navigoi yläpalkista löytyvälle 'Asiakkaat' -sivulle
+2. Klikkaa haluamasi asiakkaan riviltä löytyvää 'Historia' -painiketta
+3. Valitse kalenteristä eston loppumisajankohta
+4. Klikkaa 'Estä käyttäjä', jonka vahvista esto painamalla 'OK'
+
+   HUOM! Esto on pysyvä eikä sitä ole mahdollista poistaa. Jos siis
+   estät asiakkaan tietyksi ajanjaksoksi, niin ainut keino poistaa
+   esto on odottaa eston loppumiseen asti.
+
+## Muuta
+
+[Käyttäjätarinat](https://github.com/valtterikodisto/piikkilista/blob/master/documentation/user_stories.md)
+[Tietokantakaavio](https://github.com/valtterikodisto/piikkilista/tree/master/documentation/database.png)
