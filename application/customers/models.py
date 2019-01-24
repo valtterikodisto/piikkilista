@@ -1,4 +1,5 @@
 from application import db
+from datetime import datetime
 
 class Customer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -7,7 +8,7 @@ class Customer(db.Model):
     onupdate=db.func.current_timestamp())
 
     organization_id = db.Column(db.Integer, db.ForeignKey('organization.id'), nullable=False)
-    blocks = db.relationship("Block", backref='customer', lazy=True)
+    blocks = db.relationship("Block", backref='customer', lazy=True, order_by="desc(Block.date_end)")
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     birthday = db.Column(db.Integer, nullable=False)
@@ -23,6 +24,23 @@ class Customer(db.Model):
     def get_balance_in_euros(self):
         balance_in_euros = self.balance / 100
         return round(balance_in_euros, 2)
+
+    def get_block_status(self):
+        if (self.blocks):
+            return self.blocks[0].date_end > datetime.now()
+        else:
+            return False
+
+    def serialize(self):  
+        return {
+            'id': self.id,
+            'organization_id': self.organization_id,
+            'block': self.get_block_status(),
+            'first_name': self.first_name, 
+            'last_name': self.last_name,
+            'birthday': self.birthday,
+            'balance': self.balance,
+        }
 
 class Block(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -3,4 +3,50 @@
 {% block body %}
     <!--TODO: application frontpage-->
     <p>Front Page</p>
+        
+    <label for="first_name_input">Etunimi</label>
+    <input type="text" id="first_name_input" list="first_name_datalist">
+    <datalist id="first_name_datalist"></datalist>
+
+    <label for="last_name_input">Sukunimi</label>
+    <input type="text" id="last_name_input" list="last_name_datalist">
+    <datalist id="last_name_datalist"></datalist>
+
+    
+
+    <script>
+        const first_name_dataList = document.getElementById('first_name_datalist');
+        const first_name_input = document.getElementById('first_name_input');
+
+        const last_name_dataList = document.getElementById('last_name_datalist');
+        const last_name_input = document.getElementById('last_name_input');
+
+        const request = new XMLHttpRequest();
+
+        request.onreadystatechange = function(response) {
+            if (request.readyState === 4) {
+                if (request.status === 200) {
+                    const jsonOptions = JSON.parse(request.responseText);
+            
+                    for (let key in jsonOptions.customers_list) {
+                        const first_name_option = document.createElement('option');
+                        const last_name_option = document.createElement('option');
+
+                        first_name_option.value = jsonOptions.customers_list[key].first_name;
+                        last_name_option.value = jsonOptions.customers_list[key].last_name;
+
+                        first_name_dataList.appendChild(first_name_option);
+                        last_name_dataList.appendChild(last_name_option)
+                    }
+
+                } else {
+                    first_name_input.placeholder = "Dataa ei voitu ladata";
+                }
+            }
+        };
+
+        request.open('GET', '{{ url_for("customers_json") }}', true);
+        request.send();
+    </script>
+
 {% endblock %}

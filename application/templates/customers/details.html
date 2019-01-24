@@ -11,22 +11,80 @@
 
     <h3>Muokattu: {{ customer.date_modified }}</h3>
 
+    <button id="reveal_form_button" onclick="revealCustomerEditForm()">Muokkaa käyttäjän tietoja</button>
+
+    <div id="customer_edit_section" style="display: none">
+        <form id ="customer_edit_form" method="POST" action="{{ url_for('customers_update', customer_id=customer.id) }}">
+                {{ form.hidden_tag() }}
+                <div>
+                    {{ form.first_name.label }}
+                    {{ form.first_name(id="edit_first_name", class="edit_input")}}
+                    <ul>
+                        {% for error in form.first_name.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div>
+                    {{ form.last_name.label }}
+                    {{ form.last_name(id="edit_last_name", class="edit_input") }}
+                    <ul>
+                        {% for error in form.last_name.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div>
+                    {{ form.birthday.label }}
+                    {{ form.birthday(id="edit_birthday", class="edit_input") }}
+                    <ul>
+                        {% for error in form.birthday.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+        
+                <div>
+                    {{ form.balance.label }}
+                    {{ form.balance(id="edit_balance", class="edit_input") }}
+                    <ul>
+                        {% for error in form.balance.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div>
+                    {{ form.organization_id.label }}
+                    {{ form.organization_id(id="edit_organization_id", class="edit_input") }}
+                    <ul>
+                        {% for error in form.organization_id.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <input type="submit" value="Päivitä tiedot" />
+        </form>
+    </div>
     {% if user_block is not none %}
         <h3>Esto loppuu: {{ user_block.date_end }}</h3>
     {% else %}
         <form id="customer_block_form" method="POST" action="{{ url_for('customers_block', customer_id=customer.id) }}">
 
             <div>
-                {{ form.hidden_tag() }}
-                {{ form.date_end.label }}
-                {{ form.date_end }}
+                {{ block_form.hidden_tag() }}
+                {{ block_form.date_end.label }}
+                {{ block_form.date_end }}
             </div>
 
             <div>
                 <input type="submit" value="Estä käyttäjä" />
             </div>
             <ul>
-                {% for error in form.date_end.errors %}
+                {% for error in block_form.date_end.errors %}
                     <li>{{ error }}</li>
                 {% endfor %}
             </ul>
@@ -37,13 +95,59 @@
 
     <!-- SCRIPTS -->
     <script>
-        const customer_block_form = document.getElementById('customer_block_form');
-        customer_block_form.onsubmit = function(e){
+        const customerBlockForm = document.getElementById('customer_block_form')
+        customerBlockForm.onsubmit = function(e){
             const form = this;
             e.preventDefault();
             if(confirm("Haluatko varmasti estää käyttäjän:\n{{ customer.first_name }} {{ customer.last_name }}\n\nEstoa ei voi perua.")) {
                 form.submit();
             }
 }
+    </script>
+    <script>
+        const customerEditSection = document.getElementById("customer_edit_section")
+        window.onload = checkForVisibility;
+ 
+        function checkForVisibility () {
+            if ("{{ visibility }}" === "visible") {
+                reveal()
+            }
+        }
+
+        function reveal() {
+            customerEditSection.style.display = "block"
+            document.getElementById("reveal_form_button").innerHTML = "Piilota"
+        }
+
+        function hide() {
+            customerEditSection.style.display = "none"
+            document.getElementById("reveal_form_button").innerHTML = "Muokkaa käyttäjän tietoja"
+            document.getElementById("customer_edit_form").reset()
+        }
+
+        function revealCustomerEditForm() {
+            if (customerEditSection.style.display === "none") {
+                reveal()
+            } else {
+                hide()
+            }            
+        }
+
+        // const customerEditForm = document.getElementById("customer_edit_form")
+        // customerEditForm.onsubmit = function () {
+        //     console.log("HEIII")
+        //     const editFirstName = document.getElementById("edit_first_name")
+        //     const editLastName = document.getElementById("edit_last_name")
+        //     const editBirthday = document.getElementById("edit_birthday")
+        //     const editBalance = document.getElementById("edit_balance")
+        //     const editOrganizationId = document.getElementById("edit_organization_id")
+
+        //     if (editFirstName.value.trim() === "") editFirstName.value = "{{ customer.first_name }}";
+        //     if (editLastName.value.trim() === "") editLastName.value = "{{ customer.last_name }}";
+        //     if (editBirthday.value.trim() === "") editBirthday.value = "{{ customer.birthday }}"
+        //     if (editBalance.value.trim() === "") editBirthday.value = "{{ customer.balance }}"
+        //     if (editOrganizationId.value.trim() === "") editOrganizationId.value = "{{ customer.organization_id }}"
+            
+        // }
     </script>
 {% endblock %}
