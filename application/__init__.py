@@ -16,8 +16,21 @@ db = SQLAlchemy(app)
 from application import views
 from application.customers import models, views
 from application.organizations import models, views
+from application.auth import models, views
 
+from application.auth.models import User
 app.config["SECRET_KEY"] = os.urandom(32)
+
+from flask_login import LoginManager
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+login_manager.login_view = "auth_login"
+login_manager.login_message = "Please login to use this functionality."
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
 
 
 db.create_all()

@@ -1,63 +1,50 @@
 {% extends "layout.html" %}
 
 {% block body %}
-    <div>
-        <form method="POST" action="{{ url_for('customers_create') }}">
-            {{ form.hidden_tag() }}
-            <div>
-                {{ form.first_name.label }}
-                {{ form.first_name }}
-                <ul>
-                    {% for error in form.first_name.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
+<ul>
+    {% for error in form.first_name.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
 
-            <div>
-                {{ form.last_name.label }}
-                {{ form.last_name }}
-                <ul>
-                    {% for error in form.last_name.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
+    {% for error in form.last_name.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
 
-            <div>
-                {{ form.birthday.label }}
-                {{ form.birthday }}
-                <ul>
-                    {% for error in form.birthday.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-    
-            <div>
-                {{ form.balance.label }}
-                {{ form.balance }}
-                <ul>
-                    {% for error in form.balance.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
+    {% for error in form.birthday.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
 
-            <div>
-                {{ form.organization_id.label }}
-                {{ form.organization_id }}
-                <ul>
-                    {% for error in form.organization_id.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
+    {% for error in form.balance.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
 
-            <div>
-                <input type="submit" value="Lisää asiakas" />
-            </div>
+    {% for error in form.organization_id.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+</ul>
 
-        </form>
-    </div>
+<form method="POST" action="{{ url_for('customers_create') }}">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            <label for="first_name">{{ form.first_name.label }}</label>
+            {{ form.first_name(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            <label for="last_name">{{ form.last_name.label }}</label>
+            {{ form.last_name(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            <label for="birthday">{{ form.birthday.label }}</label>
+            {{ form.birthday(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            <label for="balance">{{ form.balance.label }}</label>
+            {{ form.balance(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            <label for="organization_id">{{ form.organization_id.label }}</label>
+            {{ form.organization_id(class_="form-control") }}
+        </div>
+        <button type="submit" class="btn btn-primary">Lisää asiakas</button>
+    </form>
 {% endblock %}

@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
 
 {% block body %}
-    <a href="{{ url_for('customers_form') }}">Lisää asiakkaita</a>
+    <form action="{{ url_for('customers_form') }}">
+        <button type="submit" class="btn btn-primary">Lisää asiakkaita</button>
+    </form>
 
     <table>
         <tr>

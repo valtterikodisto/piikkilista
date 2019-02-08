@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
 
 {% block body %}
-    <a href="{{ url_for('organizations_form') }}">Lisää järjestöjä</a>
+    <form action="{{ url_for('organizations_form') }}">
+        <button type="submit" class="btn btn-primary">Lisää järjestöjä</button>
+    </form>
 
     <ul>
         {% for organization in organizations %}

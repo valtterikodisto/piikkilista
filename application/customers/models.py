@@ -1,11 +1,8 @@
 from application import db
 from datetime import datetime
+from application.models import Base
 
-class Customer(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
-    date_modified = db.Column(db.DateTime, default=db.func.current_timestamp(),
-    onupdate=db.func.current_timestamp())
+class Customer(Base):
 
     organization_id = db.Column(db.Integer, db.ForeignKey('organization.id'), nullable=False)
     blocks = db.relationship("Block", backref='customer', lazy=True, order_by="desc(Block.date_end)")
