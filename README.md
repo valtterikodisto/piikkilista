@@ -27,6 +27,8 @@ Toimintoja:
 
 ## Demo
 Demo löytyy osoitteesta: https://tsoha-piikkilista.herokuapp.com/
+Käyttäjänimi: `admin`
+Salasana: `admin`
 
 ## Toiminnot
 
