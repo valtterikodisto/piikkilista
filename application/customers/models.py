@@ -29,6 +29,7 @@ class Customer(Base):
         print(now)
         stmt = text("SELECT block.date_end FROM block"
                     " WHERE block.customer_id = :id"
+                    " AND block.date_end > :current"
                     " ORDER BY block.date_end DESC").params(id=self.id, current=now)
         
         res = db.engine.execute(stmt)
@@ -36,8 +37,12 @@ class Customer(Base):
         if not result:
             return None
         else:
-            date = datetime.strptime(result['date_end'].split('.')[0], '%Y-%m-%d %H:%M:%S')
-            return date.strftime('%Y-%m-%d %H:%M')
+            import os
+            if os.environ.get("HEROKU"):
+                return result['date_end']
+            else:
+                date = datetime.strptime(result['date_end'].split('.')[0], '%Y-%m-%d %H:%M:%S')
+                return date.strftime('%Y-%m-%d %H:%M')
     def serialize(self):  
         return {
             'id': self.id,

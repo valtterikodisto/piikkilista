@@ -80,7 +80,7 @@ def customers_update(customer_id):
     form.organization_id.choices = [(o.id, o.name) for o in available_organizations]
 
     if not form.validate():
-        now = datetime.now().strftime("%Y-%m-%d %H:%M")
+        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         user_block = Block.query.filter(Block.customer_id == customer_id).filter(Block.date_end >= now).order_by(Block.date_end.desc()).first()
 
         return render_template("/customers/details.html", customer=customer, form=form, visibility="visible", user_block=user_block, block_form=CustomerBlockForm())
@@ -104,9 +104,8 @@ def customers_block(customer_id):
 
     if not form.validate():
         customer = Customer.query.get_or_404(customer_id)
-        now = datetime.now().strftime("%Y-%m-%d %H:%M")
-        user_block = Block.query.filter(Block.customer_id == customer_id).filter(Block.date_end >= now).order_by(Block.date_end.desc()).first()
-        return render_template("/customers/details.html", customer=customer, user_block=user_block, form=form)
+        block_end_date = customer.get_block_status()
+        return render_template("/customers/details.html", customer=customer, block_end_date=block_end_date, form=form)
 
     new_block = Block (
         customer_id,
