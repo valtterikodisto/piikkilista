@@ -118,6 +118,18 @@ def customers_block(customer_id):
     
     return redirect(url_for("customers_details", customer_id=customer_id))
 
+# Handles customer deletion
+
+@app.route("/customers/delete/<int:customer_id>", methods=["POST"])
+@login_required
+def customers_delete(customer_id):
+    customer = Customer.query.get_or_404(customer_id)
+    db.session.delete(customer)
+    db.session.commit()
+
+    return redirect(url_for("customers_index"))
+
+
 # JSON data for front page customer firstname & lastname autocomplete
 
 @app.route("/customers/json")

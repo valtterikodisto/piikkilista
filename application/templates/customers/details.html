@@ -54,6 +54,9 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Päivitä tiedot</button>
                     </form>
+                    <form id="customer_delete_form" action="{{ url_for('customers_delete', customer_id=customer.id) }}" method="POST">
+                        <button style="margin-top:20px;" type="submit" class="btn btn-danger">Poista käyttäjä</button>
+                    </form>
                 </div>                
             </div>
             {% if block_end_date is none %}
@@ -116,6 +119,17 @@
         const form = this;
         e.preventDefault();
         if(confirm("Haluatko varmasti estää käyttäjän:\n{{ customer.first_name }} {{ customer.last_name }}\n\nEstoa ei voi perua.")) {
+            form.submit();
+        }
+    }
+</script>
+    
+<script>
+    const customerDeleteForm = document.getElementById('customer_delete_form')
+    customerDeleteForm.onsubmit = function(e){
+        const form = this;
+        e.preventDefault();
+        if(confirm("Haluatko varmasti poistaa käyttäjän:\n{{ customer.first_name }} {{ customer.last_name }}\n\nMikäli poistat henkilön, menetät kaikki henkilön tiedot pysyvästi.")) {
             form.submit();
         }
     }
