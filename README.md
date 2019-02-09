@@ -18,12 +18,13 @@ asiakkaista ja heidän ostoshistoriastaan.
 
 Toimintoja:
 - Kirjautuminen
-- Salasanan vaihto
+- Salasanan vaihto [TULOSSA]
 - Asiakkaan lisäys / tietojen päivitys / jäädyttäminen / poisto
-- Organisaation lisäys / tietojen päivitys / poisto
-- Juomahinnaston muuttaminen
+- Organisaation lisäys / (tietojen päivitys [TULOSSA] / poisto [TULOSSA])
+- Juomahinnaston muuttaminen [TULOSSA]
 - Asiakkaan piikin tilan ja eston tarkastaminen
-- Yhteenveto asiakkaan tilaushistoriasta
+- Yhteenveto asiakkaan tilaushistoriasta [TULOSSA]
+- Yhteenveto järjestön piikillisistä jäsenistä ja kokonaispiikista
 
 ## Demo
 Demo löytyy osoitteesta: https://tsoha-piikkilista.herokuapp.com/
@@ -46,7 +47,7 @@ Salasana: `admin`
    Esimerkki: Jos asikkaan syntymäpäivä on 17. päivä Tammikuuta,
    niin syntymäpäivä kirjoitetaan 1701 (vielä toistaiseksi)
    
-5.Lisää asiakkaalle piikki (sentteinä vielä toistaiseksi)
+5. Lisää asiakkaalle piikki (sentteinä vielä toistaiseksi)
 
    Esimerkki: Jos asiakkaalla on piikki 7,50€ positiivisella puolella,
    niin piikki annetaan muodossa 750
@@ -60,9 +61,15 @@ Salasana: `admin`
 3. Klikkaa 'Muokkaa käyttäjän tietoja' nappia ja täytä jokainen kenttä
 4. Klikkaa päivitä tiedot, jolloin tiedot päivittyvät
 
+### Asiakkaan poisto
+1. Navigoi yläpalkista löytyvälle 'Asiakkaat' -sivulle
+2. Klikkaa haluamasi asiakkaan riviltä löytyvää 'Profiili' -painiketta
+3. Klikkaa 'Muokkaa käyttäjän tietoja' nappia
+4. Klikkaa 'Poista käyttäjä'
+
 ### Asiakkaan esto (pysyvä)
 1. Navigoi yläpalkista löytyvälle 'Asiakkaat' -sivulle
-2. Klikkaa haluamasi asiakkaan riviltä löytyvää 'Historia' -painiketta
+2. Klikkaa haluamasi asiakkaan riviltä löytyvää 'Profiili' -painiketta
 3. Valitse kalenteristä eston loppumisajankohta
 4. Klikkaa 'Estä käyttäjä', jonka vahvista esto painamalla 'OK'
 
