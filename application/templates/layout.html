@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary mb-4">
         <a class="navbar-brand" href="{{ url_for('home') }}">Piikkilista</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
@@ -24,9 +24,10 @@
 
             <div class="form-inline mt-2 mt-md-0">
                 {% if current_user.is_authenticated %}
-                <a href="{{ url_for('auth_logout') }}">{{ current_user.username }} Kirjaudu ulos</a>
+                <span class="navbar-text" style="padding-right: 8px">{{ current_user.username }}</span>
+                <a href="{{ url_for('auth_logout') }} " style="color:white">Kirjaudu ulos</a>
                 {% else %}
-                <a href="{{ url_for('auth_login') }}">Kirjaudu sisään</a>
+                <a href="{{ url_for('auth_login') }}" style="color:white">Kirjaudu sisään</a>
                 {% endif %}
             </div>
         </div>

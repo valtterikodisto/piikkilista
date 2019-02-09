@@ -1,31 +1,34 @@
 {% extends "layout.html" %}
 
 {% block body %}
-    <form action="{{ url_for('customers_form') }}">
+    <form style="margin-bottom: 20px" action="{{ url_for('customers_form') }}">
         <button type="submit" class="btn btn-primary">Lisää asiakkaita</button>
     </form>
 
-    <table>
-        <tr>
-            <th></th>
-            <th>Etunimi</th>
-            <th>Sukunimi</th>
-            <th>Syntymäpäivä</th>
-            <th>Piikki</th>
-            <th>Järjestö</th>
-        </tr>
-        
-        {% for customer in customers %}
-        <tr>
-            <td>
-                <a href="{{ url_for('customers_details', customer_id=customer.id) }}">Tiedot</a>
-            </td>
-            <td>{{ customer.first_name }}</td>
-            <td>{{ customer.last_name }}</td>
-            <td>{{ customer.birthday }}</td>
-            <td>{{ customer.get_balance_in_euros() }} €</td>
-            <td>{{ customer.organization.name }}</td>
-        </tr>
-        {% endfor %}
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Profiili</th>
+                <th scope="col">Etunimi</th>
+                <th scope="col">Sukunimi</th>
+                <th scope="col">Syntymäpäivä</th>
+                <th scope="col">Piikki</th>
+                <th scope="col">Järjestö</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers %}
+            <tr>
+                <th scope="row">
+                    <a class="badge badge-pill badge-primary" href="{{ url_for('customers_details', customer_id=customer.id) }}">Profiili</a>
+                </th>
+                <td>{{ customer.first_name }}</td>
+                <td>{{ customer.last_name }}</td>
+                <td>{{ customer.birthday }}</td>
+                <td>{{ customer.get_balance_in_euros() }} €</td>
+                <td>{{ customer.organization.name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 {% endblock %}

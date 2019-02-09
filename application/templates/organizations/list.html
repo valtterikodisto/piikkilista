@@ -1,13 +1,26 @@
 {% extends "layout.html" %}
 
 {% block body %}
-    <form action="{{ url_for('organizations_form') }}">
+    <form style="margin-bottom: 20px" action="{{ url_for('organizations_form') }}">
         <button type="submit" class="btn btn-primary">Lisää järjestöjä</button>
     </form>
 
-    <ul>
-        {% for organization in organizations %}
-        <li>{{ organization.name }}</li>
-        {% endfor %}
-    </ul>
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Järjestön nimi</th>
+                <th scope="col">Piikillisten määrä</th>
+                <th scope="col">Kokonaispiikki</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for organization in organizations %}
+            <tr>
+                <th scope="row">{{ organization.name }}</th>
+                <td>{{ organization.get_amount_of_customers() }}</td>
+                <td>{{ organization.get_organization_balance() }} €</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

@@ -58,9 +58,7 @@ def customers_create():
 @login_required
 def customers_details(customer_id):
     customer = Customer.query.get_or_404(customer_id)
-    
-    now = datetime.now().strftime("%Y-%m-%d %H:%M")
-    user_block = Block.query.filter(Block.customer_id == customer_id).filter(Block.date_end >= now).order_by(Block.date_end.desc()).first()
+    block_end_date = customer.get_block_status()
 
     form = CustomerForm()
     available_organizations = Organization.query.all()
@@ -69,7 +67,7 @@ def customers_details(customer_id):
 
     block_form = CustomerBlockForm()
 
-    return render_template("/customers/details.html", customer=customer, form=form, visibility="hidden", user_block=user_block, block_form=block_form)
+    return render_template("/customers/details.html", customer=customer, form=form, visibility="hidden", block_end_date=block_end_date, block_form=block_form)
 
 # Handles POST requests for customer update
 

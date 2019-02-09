@@ -2,6 +2,8 @@ from application import db
 from datetime import datetime
 from application.models import Base
 
+from sqlalchemy.sql import text
+
 class Customer(Base):
 
     organization_id = db.Column(db.Integer, db.ForeignKey('organization.id'), nullable=False)
@@ -23,11 +25,19 @@ class Customer(Base):
         return round(balance_in_euros, 2)
 
     def get_block_status(self):
-        if (self.blocks):
-            return self.blocks[0].date_end > datetime.now()
+        now = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        print(now)
+        stmt = text("SELECT block.date_end FROM block"
+                    " WHERE block.customer_id = :id"
+                    " ORDER BY block.date_end DESC").params(id=self.id, current=now)
+        
+        res = db.engine.execute(stmt)
+        result = res.fetchone()
+        if not result:
+            return None
         else:
-            return False
-
+            date = datetime.strptime(result['date_end'].split('.')[0], '%Y-%m-%d %H:%M:%S')
+            return date.strftime('%Y-%m-%d %H:%M')
     def serialize(self):  
         return {
             'id': self.id,
