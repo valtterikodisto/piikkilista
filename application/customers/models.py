@@ -8,6 +8,7 @@ class Customer(Base):
 
     organization_id = db.Column(db.Integer, db.ForeignKey('organization.id'), nullable=False)
     blocks = db.relationship("Block", backref='customer', lazy=True, order_by="desc(Block.date_end)")
+    orders = db.relationship("Order", backref='customer', lazy=True)
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     birthday = db.Column(db.Integer, nullable=False)
@@ -26,7 +27,6 @@ class Customer(Base):
 
     def get_block_status(self):
         now = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        print(now)
         stmt = text("SELECT block.date_end FROM block"
                     " WHERE block.customer_id = :id"
                     " AND block.date_end > :current"

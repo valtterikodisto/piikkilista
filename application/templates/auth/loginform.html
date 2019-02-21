@@ -4,16 +4,16 @@
 {{ error }}
 
 <form method="POST" action="{{ url_for('auth_login') }}">
-      {{ form.hidden_tag() }}
-      <div class="form-group">
-            <label for="username">{{ form.username.label }}</label>
-            {{ form.username(class_="form-control") }}
-      </div>
-      <div class="form-group">
-            <label for="password">{{ form.password.label }}</label>
-            {{ form.password(class_="form-control") }}
-      </div>
-      <button type="submit" class="btn btn-primary">Kirjaudu sisään</button>
+  {{ form.hidden_tag() }}
+  <div class="form-group">
+    <label for="username">{{ form.username.label }}</label>
+    {{ form.username(class_="form-control") }}
+  </div>
+  <div class="form-group">
+    <label for="password">{{ form.password.label }}</label>
+    {{ form.password(class_="form-control") }}
+  </div>
+  <button type="submit" class="btn btn-primary">Kirjaudu sisään</button>
 </form>
 
 <p>Puuttuuko käyttäjätunnus? <a href="{{ url_for('register') }}">Rekisteröidy</a></p>

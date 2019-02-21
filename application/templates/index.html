@@ -1,52 +1,173 @@
-{% extends "layout.html" %}
+{% extends "layout.html" %} {% block body %}
+<!--TODO: application frontpage-->
 
-{% block body %}
-    <!--TODO: application frontpage-->
-    <p>Front Page</p>
-        
-    <label for="first_name_input">Etunimi</label>
-    <input type="text" id="first_name_input" list="first_name_datalist">
+{% if error %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Virhe: </strong> {{ error }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if message %}
+<div id="success-message" class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>Toiminto onnistui: </strong> {{ message }}
+</div>
+{% endif %}
+
+<form method="POST" action="{{ url_for('create_order') }}">
+  {{ form.hidden_tag() }}
+
+  <!-- First name -->
+  <div class="form-group">
+    <label for="first_name">{{ form.first_name.label }}</label>
+    {{ form.first_name(class_="form-control", list="first_name_datalist", autocomplete="off") }}
     <datalist id="first_name_datalist"></datalist>
+  </div>
 
-    <label for="last_name_input">Sukunimi</label>
-    <input type="text" id="last_name_input" list="last_name_datalist">
+  <!-- Last name -->
+  <div class="form-group">
+    <label for="last_name">{{ form.last_name.label }}</label>
+    {{ form.last_name(class_="form-control", list="last_name_datalist", autocomplete="off") }}
     <datalist id="last_name_datalist"></datalist>
+  </div>
 
-    
+  <!-- Birthday -->
+  {% if birthday_visible %}
+  <div class="form-group" id="birthday_block">
+    <label for="birthday">{{ form.birthday.label }}</label>
+    {{ form.birthday(class_="form-control") }}
+  </div>
+  {% endif %}
 
-    <script>
-        const first_name_dataList = document.getElementById('first_name_datalist');
-        const first_name_input = document.getElementById('first_name_input');
+  <!-- Organization -->
+  <div class="form-group">
+    <label for="organization_id">{{ form.organization_id.label }}</label>
+    {{ form.organization_id(class_="form-control") }}
+  </div>
 
-        const last_name_dataList = document.getElementById('last_name_datalist');
-        const last_name_input = document.getElementById('last_name_input');
+  <!-- Drinks -->
+  <div class="row">
+    <div class="form-group col-sm-3">
+      <label for="beer">{{ form.beer.label }}</label>
+      <div class="input-group">
+        <button class="btn btn-primary" type="button" onclick="add('beer')">+</button>
+        <button class="btn btn-danger" type="button" onclick="remove('beer')">-</button>
+        {{ form.beer(class_="form-control", readonly=true) }}
+      </div>
+    </div>
+    <div class="form-group col-sm-3">
+      <label for="long_drink">{{ form.long_drink.label }}</label>
+      <div class="input-group">
+        <button class="btn btn-primary" type="button" onclick="add('long_drink')">+</button>
+        <button class="btn btn-danger" type="button" onclick="remove('long_drink')">-</button>
+        {{ form.long_drink(class_="form-control", readonly=true) }}
+      </div>
+    </div>
+    <div class="form-group col-sm-3">
+      <label for="cider">{{ form.cider.label }}</label>
+      <div class="input-group">
+        <button class="btn btn-primary" type="button" onclick="add('cider')">+</button>
+        <button class="btn btn-danger" type="button" onclick="remove('cider')">-</button>
+        {{ form.cider(class_="form-control", readonly=true) }}
+      </div>
+    </div>
+    <div class="form-group col-sm-3">
+      <label for="soft_drink">{{ form.soft_drink.label }}</label>
+      <div class="input-group">
+        <button class="btn btn-primary" type="button" onclick="add('soft_drink')">+</button>
+        <button class="btn btn-danger" type="button" onclick="remove('soft_drink')">-</button>
+        {{ form.soft_drink(class_="form-control", readonly=true) }}
+      </div>
+    </div>
+  </div>
 
-        const request = new XMLHttpRequest();
+  <div class="row">
+    <div class="form-group col-sm-3">
+      <label for="special_beer">{{ form.special_beer.label }}</label>
+      <div class="input-group">
+        <button class="btn btn-primary" type="button" onclick="add('special_beer')">+</button>
+        <button class="btn btn-danger" type="button" onclick="remove('special_beer')">-</button>
+        {{ form.special_beer(class_="form-control", readonly=true) }}
+      </div>
+    </div>
+    <div class="form-group col-sm-3">
+      <label for="drink">{{ form.drink.label }}</label>
+      <div class="input-group">
+        <button class="btn btn-primary" type="button" onclick="add('drink')">+</button>
+        <button class="btn btn-danger" type="button" onclick="remove('drink')">-</button>
+        {{ form.drink(class_="form-control", readonly=true) }}
+      </div>
+    </div>
+    <div class="form-group col-sm-3">
+        <label for="special_drink">{{ form.special_drink.label }}</label>
+        <div class="input-group">
+          <button class="btn btn-primary" type="button" onclick="add('special_drink')">+</button>
+          <button class="btn btn-danger" type="button" onclick="remove('special_drink')">-</button>
+          {{ form.special_drink(class_="form-control", readonly=true) }}
+        </div>
+      </div>
+  </div>
 
-        request.onreadystatechange = function(response) {
-            if (request.readyState === 4) {
-                if (request.status === 200) {
-                    const jsonOptions = JSON.parse(request.responseText);
-            
-                    for (let key in jsonOptions.customers_list) {
-                        const first_name_option = document.createElement('option');
-                        const last_name_option = document.createElement('option');
+  <button type="submit" class="btn btn-primary">Lisää ostos</button>
+</form>
 
-                        first_name_option.value = jsonOptions.customers_list[key].first_name;
-                        last_name_option.value = jsonOptions.customers_list[key].last_name;
+<!-- Scripts -->
+<script>
+  const first_name_dataList = document.getElementById("first_name_datalist");
+  const first_name_input = document.getElementById("first_name");
 
-                        first_name_dataList.appendChild(first_name_option);
-                        last_name_dataList.appendChild(last_name_option)
-                    }
+  const last_name_dataList = document.getElementById("last_name_datalist");
+  const last_name_input = document.getElementById("last_name");
 
-                } else {
-                    first_name_input.placeholder = "Dataa ei voitu ladata";
-                }
-            }
-        };
+  const request = new XMLHttpRequest();
 
-        request.open('GET', '{{ url_for("customers_json") }}', true);
-        request.send();
-    </script>
+  request.onreadystatechange = function(response) {
+    if (request.readyState === 4) {
+      if (request.status === 200) {
+        const jsonOptions = JSON.parse(request.responseText);
+
+        for (let key in jsonOptions.customers_list) {
+          const first_name_option = document.createElement("option");
+          const last_name_option = document.createElement("option");
+
+          first_name_option.value = jsonOptions.customers_list[key].first_name;
+          last_name_option.value = jsonOptions.customers_list[key].last_name;
+
+          first_name_dataList.appendChild(first_name_option);
+          last_name_dataList.appendChild(last_name_option);
+        }
+      } else {
+        first_name_input.placeholder = "Dataa ei voitu ladata";
+      }
+    }
+  };
+
+  request.open("GET", '{{ url_for("customers_json") }}', true);
+  request.send();
+</script>
+<script>
+  window.onload = function() {
+    setTimeout(function () { $('#success-message').hide(); }, 4000);
+  };
+</script>
+<script>
+  getValue = (element) => {
+    let value = parseInt(document.getElementById(element).value)
+    value = isNaN(value) || value < 0 ? 0 : value
+    return value
+  }
+
+  add = (element) => {
+    let value = getValue(element)
+    value++
+    document.getElementById(element).value = value
+  }
+  remove = (element) => {
+    let value = getValue(element)
+    if (value > 0) value--
+    document.getElementById(element).value = value
+  }
+</script>
 
 {% endblock %}
