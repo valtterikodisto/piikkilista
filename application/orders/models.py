@@ -7,19 +7,21 @@ class Order(Base):
   __tablename__ = 'purchase'
   customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
   total = db.Column(db.Integer)
+  deposit = db.Column(db.Integer)
   drinks = db.relationship("DrinkAmount")
 
   def __init__(self, customer_id):
     self.customer_id = customer_id
 
-  def add_drinks(self, drinks, drinkData):
+  def add_drinks(self, customer, drinks, drinkData, deposit):
     db.session.begin_nested()
     db.session.add(self)
+    db.session.add(customer)
 
     total = 0
     i = 0
     try:
-      while i < len(drinks)+1:
+      while i < len(drinks):
         price = drinkData[i] * drinks[i].price
         drinkAmount = DrinkAmount(self.id, drinks[i].id, drinkData[i])
         drinkAmount.drink = drinks[i]
@@ -28,6 +30,8 @@ class Order(Base):
         i += 1
 
       self.total = total
+      self.deposit = deposit
+      customer.balance -= total-deposit
       db.session.commit()
       return True
     except:

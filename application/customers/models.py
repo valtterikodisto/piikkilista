@@ -1,6 +1,7 @@
 from application import db
 from datetime import datetime
 from application.models import Base
+from application.organizations.models import Organization
 
 from sqlalchemy.sql import text
 
@@ -24,6 +25,10 @@ class Customer(Base):
     def get_balance_in_euros(self):
         balance_in_euros = self.balance / 100
         return round(balance_in_euros, 2)
+
+    def can_purchase(self, deposit):
+        limit = Organization.query.filter_by(id=self.organization_id).first().limit
+        return self.balance >= -1 * limit or deposit >= -1 * balance
 
     def get_block_status(self):
         now = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))

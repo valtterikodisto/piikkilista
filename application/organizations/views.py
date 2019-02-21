@@ -25,7 +25,7 @@ def organizations_create():
     if not form.validate():
         return render_template("organizations/new.html", form=form)
 
-    new_organization = Organization(form.name.data)
+    new_organization = Organization(form.name.data, form.limit.data)
     
     db.session.add(new_organization)
     db.session.commit()

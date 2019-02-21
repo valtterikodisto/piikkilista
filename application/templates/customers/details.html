@@ -80,37 +80,73 @@
         </div>
     </div>
     
-    <table style="margin-top: 20px;margin-bottom: 20px;" class="table">
-        <thead class="thead-light">
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Etunimi</th>
-                <th scope="col">Sukunimi</th>
-                <th scope="col">Syntymäpäivä</th>
-                <th scope="col">Järjestö</th>
-                <th scope="col">Piikki</th>
-                <th scope="col">Estetty</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ customer.id }}</td>
-                <td>{{ customer.first_name }}</td>
-                <td>{{ customer.last_name }}</td>
-                <td>{{ customer.birthday }}</td>
-                <td>{{ customer.organization.name }}</td>
-                <td>{{ customer.get_balance_in_euros() }} €</td>
-                {% if block_end_date is not none %}
-                <td class="text-danger">{{ block_end_date }}</td>
-                {% else %}
-                <td class="text-success">Ei</td>
-                {% endif %}
-            </tr>
-        </tbody>
-    </table>    
+    <div class="table-responsive">
+        <table style="margin-top: 20px;margin-bottom: 20px;" class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Etunimi</th>
+                    <th scope="col">Sukunimi</th>
+                    <th scope="col">Syntymäpäivä</th>
+                    <th scope="col">Järjestö</th>
+                    <th scope="col">Piikki</th>
+                    <th scope="col">Estetty</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ customer.id }}</td>
+                    <td>{{ customer.first_name }}</td>
+                    <td>{{ customer.last_name }}</td>
+                    <td>{{ customer.birthday }}</td>
+                    <td>{{ customer.organization.name }}</td>
+                    <td>{{ customer.get_balance_in_euros() }} €</td>
+                    {% if block_end_date is not none %}
+                    <td class="text-danger">{{ block_end_date }}</td>
+                    {% else %}
+                    <td class="text-success">Ei</td>
+                    {% endif %}
+                </tr>
+            </tbody>
+        </table>
+    </div>   
 </div>
 
 <!-- PURCHASES HERE -->
+
+<h3 class="display-5">Ostohistoria</h3>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Päivä</th>
+                <th scope="col">Yhteensä</th>
+                <th scope="col">Talletus</th>
+                <th scope="col">Olut</th>
+                <th scope="col">Lonkero</th>
+                <th scope="col">Siideri</th>
+                <th scope="col">Alkoholiton</th>
+                <th scope="col">Erikoisolut</th>
+                <th scope="col">Drinkki</th>
+                <th scope="col">Erikoisdrinkki</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in customer.orders %}
+            <tr>
+                <td>{{ order.date_created }}</td>
+                <td>{{ order.total }}</td>
+                <td>{{ order.deposit }}</td>
+                {% for drink in order.drinks %}
+                <td>{{ drink.amount }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 
 <!-- SCRIPTS -->
 <script>

@@ -3,7 +3,10 @@
 {% block body %}
 <ul>
     {% for error in form.name.errors %}
-        <li>{{ error }}</li>
+    <li>{{ error }}</li>
+    {% endfor %}
+    {% for error in form.limit.errors %}
+    <li>{{ error }}</li>
     {% endfor %}
 </ul>
 <form method="POST" action="{{ url_for('organizations_create') }}">
@@ -11,6 +14,10 @@
     <div class="form-group">
         <label for="name">{{ form.name.label }}</label>
         {{ form.name(class_="form-control") }}
+    </div>
+    <div class="form-group">
+        <label for="limit">{{ form.limit.label }}</label>
+        {{ form.limit(class_="form-control") }}
     </div>
 
     <button type="submit" class="btn btn-primary">Lisää järjestö</button>

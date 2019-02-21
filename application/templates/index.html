@@ -1,5 +1,4 @@
 {% extends "layout.html" %} {% block body %}
-<!--TODO: application frontpage-->
 
 {% if error %}
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -7,6 +6,23 @@
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
+  <ul>
+    {% for error in form.first_name.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+  
+    {% for error in form.last_name.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+  
+    {% for error in form.organization_id.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+  
+    {% for error in form.deposit.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
 </div>
 {% endif %}
 {% if message %}
@@ -109,6 +125,12 @@
       </div>
   </div>
 
+  <!-- Deposit -->
+  <div class="form-group">
+    <label for="deposit">{{ form.deposit.label }}</label>
+    {{ form.deposit(class_="form-control") }}
+  </div>
+
   <button type="submit" class="btn btn-primary">Lisää ostos</button>
 </form>
 
@@ -148,7 +170,7 @@
 </script>
 <script>
   window.onload = function() {
-    setTimeout(function () { $('#success-message').hide(); }, 4000);
+    setTimeout(function () { $('#success-message').hide(); }, 6000);
   };
 </script>
 <script>

@@ -33,8 +33,8 @@ def create_order():
     print(form.errors)
     return render_template("index.html", form=form, birthday_visible=False, error="Lomakkeen validointi ei onnistunut.")
   
-  first_name = form.first_name.data.lower()
-  last_name = form.last_name.data.lower()
+  first_name = form.first_name.data.lower().capitalize()
+  last_name = form.last_name.data.lower().capitalize()
   birthday = form.birthday.data
   organization_id = form.organization_id.data
 
@@ -51,6 +51,10 @@ def create_order():
     return render_template("index.html", form=form, birthday_visible=False, error="Käyttäjää ei löytynyt. Tarkista antamasi tiedot.")
   elif len(customers) > 1:
     return render_template("index.html", form=form, birthday_visible=True, error="Usealla jäsenellä tässä järjestössä on sama nimi. Anna myös syntymäpäivä.")
+
+  customer = customers[0]
+  if not customer.can_purchase(form.deposit.data):
+    return render_template("index.html", form=form, birthday_visible=False, error="Asiakkaan tulee maksaa piikki pois eston poistamiseksi (%.2f €)" % customer.get_balance_in_euros())
 
   # Get drinks and if there is none, generate them
   drinks = Drink.query.all()
@@ -70,38 +74,12 @@ def create_order():
     form.special_drink.data
   ]
 
-  customer = customers[0]
-  print('Customer:', customer)
   order = Order(customer.id)
   db.session.add(order)
   db.session.commit()
-  order.add_drinks(drinks, drinkData)
-  # db.session.begin_nested()
-  # db.session.add(order)
+  success = order.add_drinks(customer, drinks, drinkData, form.deposit.data)
 
-  # try:
-  #   i = 0
-  #   total = 0
-  #   while i < len(drinks):
-  #     drink_id = drinks[i].id
-  #     price = drinkData[i]*drinks[i].price
-  #     drinkAmount = DrinkAmount(order.id, drink_id, drinkData[i])
-  #     drinkAmount.drink = drinks[i]
-  #     db.session.add(drinkAmount)
-  #     total += price
-  #     i += 1
-
-  #   order.total = total
-  #   db.session.commit()
-  # except:
-  #   db.session.rollback()
-  # #finally:
-  #   #db.session.close()
-  
-  # print('Order', order)
-  # print('Drinks:')
-  # for amount_drink in order.drinks:
-  #   print('Amount', amount_drink.amount)
-  #   print('Drink', amount_drink.drink.name)
-
-  return redirect(url_for('home', message="Ostos lisätty asiakkaalle"))
+  if success:
+    return redirect(url_for('home', message="Ostos lisätty asiakkaalle. Asiakkaan piikki on nyt %.2f €"%customer.get_balance_in_euros()))
+  else:
+    return render_template("index.html", form=form, birthday_visible=False, error="Ostoksen lisäys epäonnistui")

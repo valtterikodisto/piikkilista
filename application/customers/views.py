@@ -40,8 +40,8 @@ def customers_create():
         return render_template("customers/new.html", form=form)
 
     new_customer = Customer (
-        form.first_name.data.lower(),
-        form.last_name.data.lower(),
+        form.first_name.data.lower().capitalize(),
+        form.last_name.data.lower().capitalize(),
         form.birthday.data,
         form.balance.data,
         form.organization_id.data
@@ -85,8 +85,8 @@ def customers_update(customer_id):
 
         return render_template("/customers/details.html", customer=customer, form=form, visibility="visible", user_block=user_block, block_form=CustomerBlockForm())
 
-    customer.first_name = form.first_name.data.lower()
-    customer.last_name = form.last_name.data.lower()
+    customer.first_name = form.first_name.data.lower().capitalize()
+    customer.last_name = form.last_name.data.lower().capitalize()
     customer.birthday = form.birthday.data
     customer.balance = form.balance.data
     customer.organization_id = form.organization_id.data

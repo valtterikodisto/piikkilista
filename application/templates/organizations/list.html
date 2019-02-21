@@ -11,6 +11,7 @@
                 <th scope="col">Järjestön nimi</th>
                 <th scope="col">Piikillisten määrä</th>
                 <th scope="col">Kokonaispiikki</th>
+                <th scope="col">Maksimivelka</th>
             </tr>
         </thead>
         <tbody>
@@ -19,6 +20,7 @@
                 <th scope="row">{{ organization.name }}</th>
                 <td>{{ organization.get_amount_of_customers() }}</td>
                 <td>{{ organization.get_organization_balance() }} €</td>
+                <td>{{ organization.get_limit() }} €</td>
             </tr>
             {% endfor %}
         </tbody>

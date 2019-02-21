@@ -13,7 +13,7 @@ class CustomerForm(BaseForm):
 
     birthday = IntegerField("Syntymäpäivä", validators=[NumberRange(min=0, max=3112, message="Syntymäpäivän tulee olla korkeintaan 3112 ja vähintään 0")])
 
-    balance = IntegerField("Piikki", validators=[NumberRange(min=-100000, max=100000, message="Piikki tulee olla vähintään -100000 ja korkeintaan 100000")])
+    balance = IntegerField("Piikki", validators=[NumberRange(min=-100000, message="Piikki tulee olla vähintään -100000")])
 
     organization_id = SelectField("Järjestö", coerce=int ,validators=[DataRequired(message="Organizaatio ei voi olla tyhjä")])
 
