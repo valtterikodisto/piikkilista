@@ -23,7 +23,7 @@ class Order(Base):
     try:
       while i < len(drinks):
         price = drinkData[i] * drinks[i].price
-        drinkAmount = DrinkAmount(self.id, drinks[i].id, drinkData[i])
+        drinkAmount = DrinkAmount(self.id, drinks[i].id, int(drinkData[i]))
         drinkAmount.drink = drinks[i]
         db.session.add(drinkAmount)
         total += price

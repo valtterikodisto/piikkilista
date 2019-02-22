@@ -7,6 +7,8 @@ import os
 
 if os.environ.get("HEROKU"):
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
+    app.config["SQLALCHEMY_ECHO"] = True
+
 else:
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///piikkilista.db"
     app.config["SQLALCHEMY_ECHO"] = True
