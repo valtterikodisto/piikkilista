@@ -6,6 +6,8 @@ from application.organizations.models import Organization
 from application.customers.models import Customer
 from application.orders.models import Order, DrinkAmount, Drink
 
+# Home page
+
 @app.route("/", methods = ["GET"])
 @login_required
 def home():
@@ -21,6 +23,7 @@ def home():
 
   return render_template("index.html", form=form, birthday_visible=False, message=message)
 
+# Handles POST for adding new orders
 
 @app.route("/", methods=["POST"])
 @login_required
@@ -62,8 +65,6 @@ def create_order():
     Drink.generate()
     drinks = Drink.query.all()
 
-  print(drinks)
-
   drinkData = [
     form.beer.data,
     form.long_drink.data,
@@ -77,9 +78,8 @@ def create_order():
   order = Order(customer.id)
   db.session.add(order)
   db.session.commit()
-  success = order.add_drinks(customer, drinks, drinkData, form.deposit.data)
 
-  if success:
-    return redirect(url_for('home', message="Ostos lisätty asiakkaalle. Asiakkaan piikki on nyt %.2f €"%customer.get_balance_in_euros()))
-  else:
-    return render_template("index.html", form=form, birthday_visible=False, error="Ostoksen lisäys epäonnistui")
+  # Add drinks to the order
+  order.add_drinks(customer, drinks, drinkData, form.deposit.data)
+
+  return redirect(url_for('home', message="Ostos lisätty asiakkaalle. Asiakkaan piikki on nyt %.2f €"%customer.get_balance_in_euros()))

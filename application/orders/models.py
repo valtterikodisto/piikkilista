@@ -14,13 +14,11 @@ class Order(Base):
     self.customer_id = customer_id
 
   def add_drinks(self, customer, drinks, drinkData, deposit):
-    db.session.begin_nested()
     db.session.add(self)
     db.session.add(customer)
 
     total = 0
     i = 0
-    #try:
     while i < len(drinks):
       price = drinkData[i] * drinks[i].price
       drinkAmount = DrinkAmount(self.id, drinks[i].id, int(drinkData[i]))
@@ -34,11 +32,6 @@ class Order(Base):
     self.deposit = deposit
     customer.balance -= total-deposit
     db.session.commit()
-    return True
-    # except:
-    #   db.session.rollback()
-    
-    return False
 
 
 class Drink(Base):
@@ -50,14 +43,14 @@ class Drink(Base):
     self.price = price
   
   def generate():
+    # Default values for drinks
     drinks = [{'olut':150}, {'lonkero':150}, {'siideri':150}, {'alkoholiton':100}, {'erikoisolut':250}, {'drinkki':250}, {'erikoisdrinkki':350}]
     for drink in drinks:
       for drinkName in drink:
         db.session.add(Drink(drinkName, drink.get(drinkName)))
         db.session.commit()
 
-class DrinkAmount(db.Model):
-  id = db.Column(db.Integer, primary_key=True)
+class DrinkAmount(Base):
   order_id = db.Column(db.Integer, db.ForeignKey('purchase.id'))
   drink_id = db.Column(db.Integer, db.ForeignKey('drink.id'))
   amount = db.Column(db.Integer)
