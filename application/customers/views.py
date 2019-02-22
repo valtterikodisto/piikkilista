@@ -1,6 +1,6 @@
-from application import app, db
+from application import app, db, login_manager
 from flask import redirect, render_template, request, url_for, jsonify
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from application.customers.models import Customer, Block
 from application.organizations.models import Organization
@@ -13,6 +13,9 @@ from datetime import datetime
 @app.route("/customers/new")
 @login_required
 def customers_form():
+    if not current_user.is_admin():
+        return login_manager.unauthorized()
+
     available_organizations = Organization.query.all()
     organizations_list = [(o.id, o.name) for o in available_organizations]
     form = CustomerForm()
@@ -32,6 +35,9 @@ def customers_index():
 @app.route("/customers", methods=["POST"])
 @login_required
 def customers_create():
+    if not current_user.is_admin():
+        return login_manager.unauthorized()
+
     form = CustomerForm(request.form)
     available_organizations = Organization.query.all()
     form.organization_id.choices = [(o.id, o.name) for o in available_organizations]    
@@ -57,6 +63,9 @@ def customers_create():
 @app.route("/customers/<int:customer_id>", methods=["GET"])
 @login_required
 def customers_details(customer_id):
+    if not current_user.is_admin():
+        return login_manager.unauthorized()
+
     customer = Customer.query.get_or_404(customer_id)
     block_end_date = customer.get_block_status()
 
@@ -74,6 +83,9 @@ def customers_details(customer_id):
 @app.route("/customers/<int:customer_id>", methods=["POST"])
 @login_required
 def customers_update(customer_id):
+    if not current_user.is_admin():
+        return login_manager.unauthorized()
+
     form = CustomerForm(request.form)
     customer = Customer.query.get_or_404(customer_id)
     available_organizations = Organization.query.all()
@@ -100,6 +112,9 @@ def customers_update(customer_id):
 @app.route("/customers/block/<int:customer_id>", methods=["POST"])
 @login_required
 def customers_block(customer_id):
+    if not current_user.is_admin():
+        return login_manager.unauthorized()
+
     form = CustomerBlockForm(request.form)
 
     if not form.validate():
@@ -122,6 +137,9 @@ def customers_block(customer_id):
 @app.route("/customers/delete/<int:customer_id>", methods=["POST"])
 @login_required
 def customers_delete(customer_id):
+    if not current_user.is_admin():
+        return login_manager.unauthorized()
+
     customer = Customer.query.get_or_404(customer_id)
     db.session.delete(customer)
     db.session.commit()

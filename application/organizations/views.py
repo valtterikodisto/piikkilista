@@ -1,6 +1,6 @@
-from application import app, db
+from application import app, db, login_manager
 from flask import redirect, render_template, request, url_for
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from application.organizations.models import Organization
 from application.organizations.forms import OrganizationForm
@@ -8,6 +8,8 @@ from application.organizations.forms import OrganizationForm
 @app.route("/organizations/new")
 @login_required
 def organizations_form():
+    if not current_user.is_admin():
+        return login_manager.unauthorized()
     return render_template("organizations/new.html", form=OrganizationForm())
 
 @app.route("/organizations", methods=["GET"])
@@ -18,6 +20,9 @@ def organizations_index():
 @app.route("/organizations", methods=["POST"])
 @login_required
 def organizations_create():
+    if not current_user.is_admin():
+        return login_manager.unauthorized()
+        
     form = OrganizationForm(request.form)
     print(form.name.data)
     print(form.validate())

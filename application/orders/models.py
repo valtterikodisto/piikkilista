@@ -56,8 +56,9 @@ class Drink(Base):
         db.session.commit()
 
 class DrinkAmount(db.Model):
-  order_id = db.Column(db.Integer, db.ForeignKey('purchase.id'), primary_key=True)
-  drink_id = db.Column(db.Integer, db.ForeignKey('drink.id'), primary_key=True)
+  id = db.Column(db.Integer, primary_key=True)
+  order_id = db.Column(db.Integer, db.ForeignKey('purchase.id'))
+  drink_id = db.Column(db.Integer, db.ForeignKey('drink.id'))
   amount = db.Column(db.Integer)
   drink = db.relationship("Drink")
 

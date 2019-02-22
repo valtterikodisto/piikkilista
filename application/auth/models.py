@@ -28,3 +28,9 @@ class User(Base):
     
     def is_admin(self):
         return self.admin
+
+    def roles(self):
+        if (self.admin):
+            return ["ADMIN"]
+        else:
+            return ["USER"]
