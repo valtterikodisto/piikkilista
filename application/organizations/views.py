@@ -24,13 +24,12 @@ def organizations_create():
         return login_manager.unauthorized()
         
     form = OrganizationForm(request.form)
-    print(form.name.data)
     print(form.validate())
 
     if not form.validate():
         return render_template("organizations/new.html", form=form)
 
-    new_organization = Organization(form.name.data, form.limit.data)
+    new_organization = Organization(form.name.data, int(form.limit.data * 100))
     
     db.session.add(new_organization)
     db.session.commit()

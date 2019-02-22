@@ -28,7 +28,7 @@ class Customer(Base):
 
     def can_purchase(self, deposit):
         limit = Organization.query.filter_by(id=self.organization_id).first().limit
-        return self.balance >= -1 * limit or deposit >= -1 * self.balance
+        return self.balance >= -1 * limit or int(round(deposit * 100, 2)) >= -1 * self.balance
 
     def get_block_status(self):
         now = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))

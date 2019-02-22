@@ -49,7 +49,7 @@ def customers_create():
         form.first_name.data.lower().capitalize(),
         form.last_name.data.lower().capitalize(),
         form.birthday.data,
-        form.balance.data,
+        int(round(form.balance.data * 100, 2)),
         form.organization_id.data
     )
 
@@ -100,7 +100,7 @@ def customers_update(customer_id):
     customer.first_name = form.first_name.data.lower().capitalize()
     customer.last_name = form.last_name.data.lower().capitalize()
     customer.birthday = form.birthday.data
-    customer.balance = form.balance.data
+    customer.balance = int(round(form.balance.data * 100, 2))
     customer.organization_id = form.organization_id.data
 
     db.session().commit()

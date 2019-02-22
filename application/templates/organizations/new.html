@@ -17,7 +17,12 @@
     </div>
     <div class="form-group">
         <label for="limit">{{ form.limit.label }}</label>
-        {{ form.limit(class_="form-control") }}
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">€</div>
+            </div>
+            {{ form.limit(class_="form-control") }}
+        </div>
     </div>
 
     <button type="submit" class="btn btn-primary">Lisää järjestö</button>

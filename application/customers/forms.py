@@ -1,5 +1,5 @@
 from application.forms import BaseForm
-from wtforms import StringField, IntegerField, SelectField, validators
+from wtforms import StringField, IntegerField, SelectField, DecimalField, validators
 from wtforms.fields.html5 import DateField
 from wtforms.validators import ValidationError, Length, DataRequired, NumberRange
 from application.organizations.models import Organization
@@ -13,7 +13,7 @@ class CustomerForm(BaseForm):
 
     birthday = IntegerField("Syntymäpäivä", validators=[NumberRange(min=0, max=3112, message="Syntymäpäivän tulee olla korkeintaan 3112 ja vähintään 0")])
 
-    balance = IntegerField("Piikki", validators=[NumberRange(min=-100000, message="Piikki tulee olla vähintään -100000")])
+    balance = DecimalField("Piikki", validators=[NumberRange(min=-1000, message="Piikki tulee olla vähintään -1000")])
 
     organization_id = SelectField("Järjestö", coerce=int ,validators=[DataRequired(message="Organizaatio ei voi olla tyhjä")])
 

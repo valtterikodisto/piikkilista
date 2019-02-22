@@ -39,7 +39,12 @@
         </div>
         <div class="form-group">
             <label for="balance">{{ form.balance.label }}</label>
-            {{ form.balance(class_="form-control") }}
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">€</div>
+                </div>
+                {{ form.balance(class_="form-control") }}
+            </div>
         </div>
         <div class="form-group">
             <label for="organization_id">{{ form.organization_id.label }}</label>

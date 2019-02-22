@@ -46,7 +46,12 @@
                         </div>
                         <div class="form-group">
                             <label for="balance">{{ form.balance.label }}</label>
-                            {{ form.balance(class_="form-control") }}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">€</div>
+                                </div>
+                                {{ form.balance(class_="form-control") }}
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="organization_id">{{ form.organization_id.label }}</label>
@@ -136,8 +141,8 @@
             {% for order in customer.orders %}
             <tr>
                 <td>{{ order.date_created }}</td>
-                <td>{{ order.total }}</td>
-                <td>{{ order.deposit }}</td>
+                <td>{{ order.get_total_in_euros() }} €</td>
+                <td>{{ order.get_deposit_in_euros() }} €</td>
                 {% for drink in order.drinks %}
                 <td>{{ drink.amount }}</td>
                 {% endfor %}

@@ -128,7 +128,12 @@
   <!-- Deposit -->
   <div class="form-group">
     <label for="deposit">{{ form.deposit.label }}</label>
-    {{ form.deposit(class_="form-control") }}
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">€</div>
+      </div>
+      {{ form.deposit(class_="form-control") }}
+    </div>
   </div>
 
   <button type="submit" class="btn btn-primary">Lisää ostos</button>

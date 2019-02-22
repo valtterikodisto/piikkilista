@@ -13,6 +13,12 @@ class Order(Base):
   def __init__(self, customer_id):
     self.customer_id = customer_id
 
+  def get_total_in_euros(self):
+    return round(self.total/100, 2)
+
+  def get_deposit_in_euros(self):
+    return round(self.deposit/100, 2)
+
   def add_drinks(self, customer, drinks, drinkData, deposit):
     db.session.add(self)
     db.session.add(customer)
@@ -29,8 +35,8 @@ class Order(Base):
       i += 1
 
     self.total = total
-    self.deposit = deposit
-    customer.balance -= total-deposit
+    self.deposit = int(round(deposit * 100, 2))
+    customer.balance -= total-self.deposit
     db.session.commit()
 
 

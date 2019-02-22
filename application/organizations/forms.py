@@ -1,5 +1,5 @@
 from application.forms import BaseForm
-from wtforms import StringField, IntegerField, validators
+from wtforms import StringField, DecimalField, validators
 from wtforms.validators import ValidationError, NumberRange
 
 def validate_name(form, field):
@@ -12,4 +12,4 @@ def validate_name(form, field):
 
 class OrganizationForm(BaseForm):
     name = StringField("Järjestön nimi", [validate_name])
-    limit = IntegerField("Jäsenen maksimivelka", validators=[NumberRange(min=0, max=100000, message="Maksimivelan tulee olla positiivinen ja korkeintaan 100000")])
+    limit = DecimalField("Jäsenen maksimivelka", validators=[NumberRange(min=0, max=1000, message="Maksimivelan tulee olla positiivinen ja korkeintaan 1000")])
