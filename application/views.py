@@ -58,6 +58,9 @@ def create_order():
   customer = customers[0]
   if not customer.can_purchase(form.deposit.data):
     return render_template("index.html", form=form, birthday_visible=False, error="Asiakkaan tulee maksaa piikki pois eston poistamiseksi (%.2f €)" % customer.get_balance_in_euros())
+  
+  if customer.get_block_status():
+    return render_template("index.html", form=form, birthday_visible=False, error="Asiakas on estetty.")
 
   # Get drinks and if there is none, generate them
   drinks = Drink.query.all()
