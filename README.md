@@ -4,7 +4,7 @@ Tehtävänä on toteuttaa www-sivuila toimiva piikkilista. Piikkilistaan
 tulee kirjautua joko admin- tai user-tunnuksella. Listalle
 lisätyn asiakkaan piikkiin lisätään, jos asiakas ostaa jotain ja piikistä
 voidaan vähentää, jos asiakas maksaa piikkiä pois. Asiakas tunnistetaan
-etunimen, toisen nimen, sukunimen ja järjestön perusteella.
+etunimen, sukunimen, (syntymäpäivän) ja järjestön perusteella.
 
 User-käyttäjä voi lisätä asiakkaan piikkiin tilauksia, jotka sisältävät 
 yhden tai useamman juoman. Piikkiä voidaan myös maksaa pois. User tason 
@@ -17,13 +17,13 @@ ja muuttaa juoman hintaa. Admin-käyttäjä näkee yhteenvedon kaikista
 asiakkaista ja heidän ostoshistoriastaan.
 
 Toimintoja:
-- Kirjautuminen
-- Salasanan vaihto [TULOSSA]
+- Kirjautuminen (admin, user)
 - Asiakkaan lisäys / tietojen päivitys / jäädyttäminen / poisto
+- Automaattinen piikin jäätyminen, kun piikki liian suuri
 - Organisaation lisäys / (tietojen päivitys [TULOSSA] / poisto [TULOSSA])
 - Juomahinnaston muuttaminen [TULOSSA]
 - Asiakkaan piikin tilan ja eston tarkastaminen
-- Yhteenveto asiakkaan tilaushistoriasta [TULOSSA]
+- Yhteenveto asiakkaan tilaushistoriasta
 - Yhteenveto järjestön piikillisistä jäsenistä ja kokonaispiikista
 
 ## Demo
@@ -36,7 +36,8 @@ Salasana: `admin`
 ### Järjestöjen lisäys
 1. Navigoi yläpalkista löytyvälle 'Järjestöt' -sivulle
 2. Lisäyssivustolle pääset painamalla 'Lisää järjestöjä' -linkkiä
-3. Anna järjestölle nimi ja ja klikkaa 'Lisää järjestö'
+3. Anna järjestölle nimi ja järjestön jäsenen maksimivelka (tämän ylittyessä piikki jäätyy, kunnes se maksetaan kokonaan)
+4. Klikkaa 'Lisää järjestö'
 
 ### Asiakkaiden lisäys
 1. Navigoi yläpalkista löytyvälle 'Asiakkaat' -sivulle
@@ -76,6 +77,40 @@ Salasana: `admin`
    HUOM! Esto on pysyvä eikä sitä ole mahdollista poistaa. Jos siis
    estät asiakkaan tietyksi ajanjaksoksi, niin ainut keino poistaa
    esto on odottaa eston loppumiseen asti.
+   
+### Tilauksen tekeminen (ei toimi vielä Herokussa)
+1. Navigoi yläpalkista etusivulle painamalla 'Piikkilistaa'
+2. Syötä olemassa olevan asiakkaan tiedot kenttiin
+   
+   HUOM! Mikäli useammalla asiakkaalla samassa järjestössä on sama etu- ja 
+   sukunimi, lomakkeen lähettämisen jälkeen ilmestyy syntymäpäiväkenttä. Täytä 
+   kenttä asiakkaan syntymäpäivällä ja paina lähetä lomake uudelleen. 
+   
+3. Lisää +/- painikkeilla juomia tilaukseen
+4. Mikäli asiakas tekee talletuksen, lisää se talletuskenttään (muodossa 10€ => 1000)
+5. Klikkaa 'Lisää ostos'
+
+## Asennusohje
+
+### Lataus ja suoritus
+Jotta saat sovelluksen pyörimään lokaalisti, tarvitset ainakin seuraavat: `python3, pip, sqlite3, git`.
+```bash
+git clone https://github.com/valtterikodisto/piikkilista
+cd piikkilista
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+Sovelluksen saat tämän jälkeen auki suorittamalla `python3 run.py`, jonka jälkeen sovellus löytyy osoitteesta http://localhost:5000. Tietokannassa ei kuitenkaan ole käyttäjätunnuksia, joten joudumme lisäämään ne seuraavasti:
+
+```bash
+cd application/
+sqlite3 piikkilista.db
+```
+```SQL
+INSERT INTO account (username, password, admin) VALUES ('admin', 'admin', 1);
+```
+Normaalien käyttäjien lisäys taas tapahtuu rekisteröintisivulla: http://localhost:5000/register
 
 ## Muuta
 
