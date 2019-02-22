@@ -20,22 +20,23 @@ class Order(Base):
 
     total = 0
     i = 0
-    try:
-      while i < len(drinks):
-        price = drinkData[i] * drinks[i].price
-        drinkAmount = DrinkAmount(self.id, drinks[i].id, int(drinkData[i]))
-        drinkAmount.drink = drinks[i]
-        db.session.add(drinkAmount)
-        total += price
-        i += 1
-
-      self.total = total
-      self.deposit = deposit
-      customer.balance -= total-deposit
+    #try:
+    while i < len(drinks):
+      price = drinkData[i] * drinks[i].price
+      drinkAmount = DrinkAmount(self.id, drinks[i].id, int(drinkData[i]))
+      drinkAmount.drink = drinks[i]
+      db.session.add(drinkAmount)
       db.session.commit()
-      return True
-    except:
-      db.session.rollback()
+      total += price
+      i += 1
+
+    self.total = total
+    self.deposit = deposit
+    customer.balance -= total-deposit
+    db.session.commit()
+    return True
+    # except:
+    #   db.session.rollback()
     
     return False
 
