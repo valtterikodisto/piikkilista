@@ -8,8 +8,8 @@ from sqlalchemy.sql import text
 class Customer(Base):
 
     organization_id = db.Column(db.Integer, db.ForeignKey('organization.id'), nullable=False)
-    blocks = db.relationship("Block", backref='customer', lazy=True, order_by="desc(Block.date_end)")
-    orders = db.relationship("Order", backref='customer', lazy=True)
+    blocks = db.relationship("Block", cascade="all,delete", backref='customer', lazy=True, order_by="desc(Block.date_end)")
+    orders = db.relationship("Order", cascade="all,delete", backref='customer', lazy=True)
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     birthday = db.Column(db.Integer, nullable=False)
