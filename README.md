@@ -20,8 +20,7 @@ Toimintoja:
 - Kirjautuminen (admin, user)
 - Asiakkaan lisäys / tietojen päivitys / jäädyttäminen / poisto
 - Automaattinen piikin jäätyminen, kun piikki liian suuri
-- Organisaation lisäys / (tietojen päivitys [TULOSSA] / poisto [TULOSSA])
-- Juomahinnaston muuttaminen [TULOSSA]
+- Organisaation lisäys
 - Asiakkaan piikin tilan ja eston tarkastaminen
 - Yhteenveto asiakkaan tilaushistoriasta
 - Yhteenveto järjestön piikillisistä jäsenistä ja kokonaispiikista
@@ -46,19 +45,19 @@ Salasana: `admin`
 4. Lisää asiakkaalle syntymäpäivä
 
    Esimerkki: Jos asikkaan syntymäpäivä on 17. päivä Tammikuuta,
-   niin syntymäpäivä kirjoitetaan 1701 (vielä toistaiseksi)
+   niin syntymäpäivä kirjoitetaan 1701
    
-5. Lisää asiakkaalle piikki (sentteinä vielä toistaiseksi)
+5. Lisää asiakkaalle piikki
 
    Esimerkki: Jos asiakkaalla on piikki 7,50€ positiivisella puolella,
-   niin piikki annetaan muodossa 750
+   niin piikki annetaan muodossa 7.5
    
 6. Anna asiakkaan järjestö (valitse sallituista järjestöistä)
 7. Klikkaa 'Lisää asiakas'
 
 ### Asiakkaan tietojen päivitys
 1. Navigoi yläpalkista löytyvälle 'Asiakkaat' -sivulle
-2. Valitse haluamasi asiakas ja paina etunimen vasemmalla olevaa linkkiä 'Tiedot'
+2. Valitse haluamasi asiakas ja paina etunimen vasemmalla olevaa painiketta 'Profiili'
 3. Klikkaa 'Muokkaa käyttäjän tietoja' nappia ja täytä jokainen kenttä
 4. Klikkaa päivitä tiedot, jolloin tiedot päivittyvät
 
@@ -78,7 +77,7 @@ Salasana: `admin`
    estät asiakkaan tietyksi ajanjaksoksi, niin ainut keino poistaa
    esto on odottaa eston loppumiseen asti.
    
-### Tilauksen tekeminen (ei toimi vielä Herokussa)
+### Tilauksen tekeminen
 1. Navigoi yläpalkista etusivulle painamalla 'Piikkilistaa'
 2. Syötä olemassa olevan asiakkaan tiedot kenttiin
    
@@ -87,7 +86,7 @@ Salasana: `admin`
    kenttä asiakkaan syntymäpäivällä ja paina lähetä lomake uudelleen. 
    
 3. Lisää +/- painikkeilla juomia tilaukseen
-4. Mikäli asiakas tekee talletuksen, lisää se talletuskenttään (muodossa 10€ => 1000)
+4. Mikäli asiakas tekee talletuksen, lisää se talletuskenttään
 5. Klikkaa 'Lisää ostos'
 
 ## Asennusohje
