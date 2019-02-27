@@ -146,6 +146,19 @@ def customers_delete(customer_id):
 
     return redirect(url_for("customers_index"))
 
+@app.route("/customers/search", methods=["POST"])
+@login_required
+def customers_search():
+    first_name = request.form.get("first_name").strip()
+    last_name = request.form.get("last_name").strip()
+    customers = None
+
+    if not first_name and not last_name:
+        return redirect(url_for('customers_index'))
+    else:
+        customers = Customer.query.filter(Customer.first_name.ilike("%"+first_name+"%")).filter(Customer.last_name.ilike("%"+last_name+"%"))
+
+    return render_template("customers/list.html", customers=customers)
 
 # JSON data for front page customer firstname & lastname autocomplete
 
