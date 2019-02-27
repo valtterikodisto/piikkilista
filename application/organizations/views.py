@@ -35,3 +35,47 @@ def organizations_create():
     db.session.commit()
 
     return redirect(url_for('organizations_index'))
+
+@app.route("/organizations/<int:organization_id>", methods=["GET"])
+@login_required
+def organizations_details(organization_id):
+    if not current_user.is_admin():
+        return login_manager.unauthorized()
+
+    organization = Organization.query.get_or_404(organization_id)
+    form = OrganizationForm()
+
+    return render_template("/organizations/details.html", organization=organization, form=form)
+
+@app.route("/organizations/<int:organization_id>", methods=["POST"])
+@login_required
+def organizations_update(organization_id):
+    if not current_user.is_admin():
+        return login_manager.unauthorized()
+
+    organization = Organization.query.get_or_404(organization_id)
+    form = OrganizationForm(request.form)
+
+    if not form.validate():
+        return render_template("/organizations/details.html", organization=organization, form=form)
+
+    organization.name = form.name.data
+    organization.limit = int(form.limit.data * 100)
+
+    db.session.commit()
+    return redirect(url_for("organizations_details", organization_id=organization_id))
+
+@app.route("/organizations/delete/<int:organization_id>", methods=["POST"])
+@login_required
+def organizations_delete(organization_id):
+    if not current_user.is_admin():
+        print("UNAUTHORIZED")
+        return login_manager.unauthorized()
+
+    print("HELLO WORLD")
+
+    organization = Organization.query.get_or_404(organization_id)
+    db.session.delete(organization)
+    db.session.commit()
+
+    return redirect(url_for("organizations_index"))

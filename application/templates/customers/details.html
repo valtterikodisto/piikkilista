@@ -95,6 +95,7 @@
                     <th scope="col">Syntymäpäivä</th>
                     <th scope="col">Järjestö</th>
                     <th scope="col">Piikki</th>
+                    <th scope="col">Lempijuoma</th>
                     <th scope="col">Estetty</th>
                 </tr>
             </thead>
@@ -106,6 +107,7 @@
                     <td>{{ customer.birthday }}</td>
                     <td>{{ customer.organization.name }}</td>
                     <td>{{ customer.get_balance_in_euros() }} €</td>
+                    <td>{{ customer.get_favorite_drink() }}</td>
                     {% if block_end_date is not none %}
                     <td class="text-danger">{{ block_end_date }}</td>
                     {% else %}

@@ -48,6 +48,24 @@ class Customer(Base):
             else:
                 date = datetime.strptime(result['date_end'].split('.')[0], '%Y-%m-%d %H:%M:%S')
                 return date.strftime('%Y-%m-%d %H:%M')
+
+    def get_favorite_drink(self):
+        stmt = text("SELECT drink.name, SUM(drink_amount.amount) AS amount FROM customer" 
+                    " INNER JOIN purchase ON purchase.customer_id = customer.id"
+                    " INNER JOIN drink_amount ON drink_amount.order_id = purchase.id"
+                    " INNER JOIN drink ON drink.id = drink_amount.drink_id"
+                    " WHERE customer.id = :id"
+                    " GROUP BY drink.name"
+                    " ORDER BY amount DESC").params(id=self.id)
+        res = db.engine.execute(stmt)
+        result = res.fetchone()
+        if not result:
+            return 'Ei ostoksia'
+        elif result['amount'] == 0:
+            return 'Ei ostoksia'
+        else:
+            return result['name'].capitalize()
+
     def serialize(self):  
         return {
             'id': self.id,

@@ -7,7 +7,7 @@ class Organization(Base):
 
     name = db.Column(db.String(50), nullable=False)
     limit = db.Column(db.Integer, nullable=False)
-    customers = db.relationship("Customer", backref='organization', lazy=True)
+    customers = db.relationship("Customer", cascade="all,delete", backref='organization', lazy=True)
 
     def __init__(self, name, limit):
         self.name = name

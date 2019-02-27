@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="text-center">
+  <h3 class="display-5">{{ organization.name }}</h3>
+  <h3 class="display-5">Maksimivelka: {{ organization.get_limit() }} €</h3><br />
+  <h3 class="display-5">Muokkaa järjestöä</h3>
+
+  <form method="POST" action="{{ url_for('organizations_update', organization_id=organization.id) }}">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      <label for="name">{{ form.name.label }}</label>
+      {{ form.name(class_="form-control") }}
+    </div>
+
+    <div class="form-group">
+        <label for="limit">{{ form.limit.label }}</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">€</div>
+            </div>
+            {{ form.limit(class_="form-control") }}
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Päivitä tiedot</button>
+  </form>
+  <form id="organization_delete_form" action="{{ url_for('organizations_delete', organization_id=organization.id) }}" method="POST">
+    <button type="submit" class="btn btn-danger">Poista järjestö</button>
+  </form>
+
+</div>
+
+<!-- SCRIPTS -->
+
+<script>
+  const organizationDeleteForm = document.getElementById('organization_delete_form')
+  organizationDeleteForm.onsubmit = function(e) {
+    const form = this
+    e.preventDefault()
+    if (confirm('Haluatko varmasti poistaa järjestön:\n{{ organization.name }}\n\nMikäli poistat järjestön, menetät pysyvästi kaikki järjestön asiakkaat ja heidän tietonsa')) {
+      console.log('SUCCESS')
+      form.submit() 
+    } else {
+      console.log('FAILURE')
+    }
+  }
+</script>
+
+{% endblock %}

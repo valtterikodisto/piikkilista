@@ -12,15 +12,22 @@
                 <th scope="col">Piikillisten määrä</th>
                 <th scope="col">Kokonaispiikki</th>
                 <th scope="col">Maksimivelka</th>
+                <th scope="col">Muokkaa</th>
             </tr>
         </thead>
         <tbody>
             {% for organization in organizations %}
             <tr>
-                <th scope="row">{{ organization.name }}</th>
+                <td>{{ organization.name }}</td>
                 <td>{{ organization.get_amount_of_customers() }}</td>
                 <td>{{ organization.get_organization_balance() }} €</td>
                 <td>{{ organization.get_limit() }} €</td>
+                <td>
+                    <a
+                    class="badge badge-pill badge-secondary"
+                    href="{{ url_for('organizations_details', organization_id=organization.id) }}"
+                    >Muokkaa</a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
