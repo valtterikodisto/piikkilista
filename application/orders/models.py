@@ -50,7 +50,7 @@ class Drink(Base):
   
   def generate():
     # Default values for drinks
-    drinks = [{'olut':150}, {'lonkero':150}, {'siideri':150}, {'alkoholiton':100}, {'erikoisolut':250}, {'drinkki':250}, {'erikoisdrinkki':350}]
+    drinks = [{'olut':150}, {'lonkero':150}, {'siideri':150}, {'alkoholiton':100}, {'erikoisolut':250}, {'drinkki':250}, {'erikoisdrinkki':350}, {'viski':400}]
     for drink in drinks:
       for drinkName in drink:
         db.session.add(Drink(drinkName, drink.get(drinkName)))

@@ -1,6 +1,7 @@
 from application.forms import BaseForm
 from wtforms import StringField, IntegerField, SelectField, DecimalField
 from wtforms.validators import DataRequired, NumberRange
+from application.orders.models import Drink
 
 class OrderForm(BaseForm):
   first_name = StringField("Etunimi", validators=[DataRequired(message="Etunimi ei voi olla tyhjä")])
@@ -15,5 +16,6 @@ class OrderForm(BaseForm):
   special_beer = IntegerField("Erikoisolut", default=0)
   drink = IntegerField("Drinkki", default=0)
   special_drink = IntegerField("Erikoisdrinkki", default=0)
+  whisky = IntegerField("Viski", default=0)
 
-  deposit = DecimalField("Talletus", default=0, validators=[NumberRange(min=0, message="Talletuksen tulee olla vähintään 0")])
+  deposit = DecimalField("Talletus", default=0)

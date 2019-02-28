@@ -75,7 +75,8 @@ def create_order():
     form.soft_drink.data,
     form.special_beer.data,
     form.drink.data,
-    form.special_drink.data
+    form.special_drink.data,
+    form.whisky.data
   ]
 
   order = Order(customer.id)
