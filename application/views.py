@@ -1,6 +1,6 @@
 from flask import redirect, render_template, request, url_for
 from application import app, db
-from flask_login import login_required
+from flask_login import login_required, current_user
 from application.orders.forms import OrderForm
 from application.organizations.models import Organization
 from application.customers.models import Customer
@@ -81,7 +81,7 @@ def create_order():
     form.whisky.data
   ]
 
-  order = Order(customer.id)
+  order = Order(customer.id, current_user.id)
   db.session.add(order)
   db.session.commit()
 

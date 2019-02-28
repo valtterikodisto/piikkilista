@@ -6,12 +6,14 @@ from sqlalchemy.sql import text
 class Order(Base):
   __tablename__ = 'purchase'
   customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
+  user_id = db.Column(db.Integer, db.ForeignKey('account.id'))
   total = db.Column(db.Integer)
   deposit = db.Column(db.Integer)
   drinks = db.relationship("DrinkAmount")
 
-  def __init__(self, customer_id):
+  def __init__(self, customer_id, user_id):
     self.customer_id = customer_id
+    self.user_id  = user_id
 
   def get_total_in_euros(self):
     return round(self.total/100, 2)
