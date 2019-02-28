@@ -56,6 +56,9 @@ class Drink(Base):
         db.session.add(Drink(drinkName, drink.get(drinkName)))
         db.session.commit()
 
+  def get_price_in_euros(self):
+    return round(self.price/100, 2)
+
 class DrinkAmount(Base):
   order_id = db.Column(db.Integer, db.ForeignKey('purchase.id'))
   drink_id = db.Column(db.Integer, db.ForeignKey('drink.id'))

@@ -17,11 +17,17 @@ def home():
   form = OrderForm()
   form.organization_id.choices = organizations_list
 
+  # Get drinks and if there is none, generate them
+  drinks = Drink.query.all()
+  if not drinks:
+    Drink.generate()
+    drinks = Drink.query.all()
+
   message = None
   if 'message' in request.args:
     message = request.args['message']
 
-  return render_template("index.html", form=form, birthday_visible=False, message=message)
+  return render_template("index.html", form=form, birthday_visible=False, message=message, drinks=drinks)
 
 # Handles POST for adding new orders
 
@@ -32,9 +38,11 @@ def create_order():
   available_organizations = Organization.query.all()
   form.organization_id.choices = [(o.id, o.name) for o in available_organizations]
 
+  drinks = Drink.query.all()
+
   if not form.validate():
     print(form.errors)
-    return render_template("index.html", form=form, birthday_visible=False, error="Lomakkeen validointi ei onnistunut.")
+    return render_template("index.html", form=form, birthday_visible=False, error="Lomakkeen validointi ei onnistunut.", drinks=drinks)
   
   first_name = form.first_name.data.lower().capitalize()
   last_name = form.last_name.data.lower().capitalize()
@@ -51,22 +59,16 @@ def create_order():
 
   # Handle invalid customer details
   if not customers:
-    return render_template("index.html", form=form, birthday_visible=False, error="Käyttäjää ei löytynyt. Tarkista antamasi tiedot.")
+    return render_template("index.html", form=form, birthday_visible=False, error="Käyttäjää ei löytynyt. Tarkista antamasi tiedot.", drinks=drinks)
   elif len(customers) > 1:
-    return render_template("index.html", form=form, birthday_visible=True, error="Usealla jäsenellä tässä järjestössä on sama nimi. Anna myös syntymäpäivä.")
+    return render_template("index.html", form=form, birthday_visible=True, error="Usealla jäsenellä tässä järjestössä on sama nimi. Anna myös syntymäpäivä.", drinks=drinks)
 
   customer = customers[0]
   if not customer.can_purchase(form.deposit.data):
-    return render_template("index.html", form=form, birthday_visible=False, error="Asiakkaan tulee maksaa piikki pois eston poistamiseksi (%.2f €)" % customer.get_balance_in_euros())
+    return render_template("index.html", form=form, birthday_visible=False, error="Asiakkaan tulee maksaa piikki pois eston poistamiseksi (%.2f €)" % customer.get_balance_in_euros(), drinks=drinks)
   
   if customer.get_block_status():
-    return render_template("index.html", form=form, birthday_visible=False, error="Asiakas on estetty.")
-
-  # Get drinks and if there is none, generate them
-  drinks = Drink.query.all()
-  if not drinks:
-    Drink.generate()
-    drinks = Drink.query.all()
+    return render_template("index.html", form=form, birthday_visible=False, error="Asiakas on estetty.", drinks=drinks)
 
   drinkData = [
     form.beer.data,

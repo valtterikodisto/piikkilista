@@ -9,7 +9,7 @@ class Customer(Base):
 
     organization_id = db.Column(db.Integer, db.ForeignKey('organization.id'), nullable=False)
     blocks = db.relationship("Block", cascade="all,delete", backref='customer', lazy=True, order_by="desc(Block.date_end)")
-    orders = db.relationship("Order", cascade="all,delete", backref='customer', lazy=True)
+    orders = db.relationship("Order", cascade="all,delete", backref='customer', lazy=True, order_by="desc(Order.date_created)")
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     birthday = db.Column(db.Integer, nullable=False)
