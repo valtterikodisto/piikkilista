@@ -17,6 +17,7 @@ CREATE TABLE organization (
   date_created DATETIME,
   date_modified DATETIME,
   name VARCHAR(50) NOT NULL,
+  "limit" INTEGER NOT NULL,
   PRIMARY KEY (id)
 )
 ```
