@@ -113,5 +113,6 @@ Normaalien käyttäjien lisäys taas tapahtuu rekisteröintisivulla: http://loca
 
 ## Muuta
 
-[Käyttäjätarinat](https://github.com/valtterikodisto/piikkilista/blob/master/documentation/user_stories.md)
-[Tietokantakaavio](https://github.com/valtterikodisto/piikkilista/tree/master/documentation/database.png)
+[Käyttäjätarinat](https://github.com/valtterikodisto/piikkilista/blob/master/documentation/user_stories.md) <br />
+[Tietokantakaavio](https://github.com/valtterikodisto/piikkilista/tree/master/documentation/database.png) <br />
+[CREATE TABLE -lauseet](https://github.com/valtterikodisto/piikkilista/tree/master/documentation/create_table.md)

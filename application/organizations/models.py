@@ -42,5 +42,18 @@ class Organization(Base):
         else:
             return round((result/100),2)
 
+    def get_average_order_total(self):
+        stmt = text("SELECT AVG(purchase.total) AS average FROM organization"
+                    " INNER JOIN customer ON customer.organization_id = organization.id"
+                    " INNER JOIN purchase ON purchase.customer_id = customer.id"
+                    " WHERE organization_id = :id").params(id=self.id)
+
+        res = db.engine.execute(stmt)
+        result = res.fetchone()
+        if not result['average']:
+            return 0.0
+        else:
+            return round(float(result['average']) / 100, 2)
+
     def get_limit(self):
         return round(self.limit/100, 2)
