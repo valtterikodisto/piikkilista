@@ -1,28 +1,23 @@
-from application import app, db, login_manager
+from application import app, db, login_required
 from flask import redirect, render_template, request, url_for
-from flask_login import login_required, current_user
+from flask_login import current_user
 
 from application.organizations.models import Organization
 from application.organizations.forms import OrganizationForm
 
 @app.route("/organizations/new")
-@login_required
+@login_required(role="ADMIN")
 def organizations_form():
-    if not current_user.is_admin():
-        return login_manager.unauthorized()
     return render_template("organizations/new.html", form=OrganizationForm())
 
 @app.route("/organizations", methods=["GET"])
-@login_required
+@login_required(role="ANY")
 def organizations_index():
     return render_template("organizations/list.html", organizations=Organization.query.all())
 
 @app.route("/organizations", methods=["POST"])
-@login_required
+@login_required(role="ADMIN")
 def organizations_create():
-    if not current_user.is_admin():
-        return login_manager.unauthorized()
-        
     form = OrganizationForm(request.form)
     print(form.validate())
 
@@ -37,22 +32,16 @@ def organizations_create():
     return redirect(url_for('organizations_index'))
 
 @app.route("/organizations/<int:organization_id>", methods=["GET"])
-@login_required
+@login_required(role="ADMIN")
 def organizations_details(organization_id):
-    if not current_user.is_admin():
-        return login_manager.unauthorized()
-
     organization = Organization.query.get_or_404(organization_id)
     form = OrganizationForm()
 
     return render_template("/organizations/details.html", organization=organization, form=form)
 
 @app.route("/organizations/<int:organization_id>", methods=["POST"])
-@login_required
+@login_required(role="ADMIN")
 def organizations_update(organization_id):
-    if not current_user.is_admin():
-        return login_manager.unauthorized()
-
     organization = Organization.query.get_or_404(organization_id)
     form = OrganizationForm(request.form)
 
@@ -66,14 +55,8 @@ def organizations_update(organization_id):
     return redirect(url_for("organizations_details", organization_id=organization_id))
 
 @app.route("/organizations/delete/<int:organization_id>", methods=["POST"])
-@login_required
+@login_required(role="ADMIN")
 def organizations_delete(organization_id):
-    if not current_user.is_admin():
-        print("UNAUTHORIZED")
-        return login_manager.unauthorized()
-
-    print("HELLO WORLD")
-
     organization = Organization.query.get_or_404(organization_id)
     db.session.delete(organization)
     db.session.commit()

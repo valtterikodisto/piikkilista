@@ -1,6 +1,6 @@
-from application import app, db, login_manager
+from application import app, db, login_required
 from flask import redirect, render_template, request, url_for, jsonify
-from flask_login import login_required, current_user
+from flask_login import current_user
 
 from application.customers.models import Customer, Block
 from application.organizations.models import Organization
@@ -12,11 +12,8 @@ from datetime import datetime
 # Page for adding new customers
 
 @app.route("/customers/new")
-@login_required
+@login_required(role="ADMIN")
 def customers_form():
-    if not current_user.is_admin():
-        return login_manager.unauthorized()
-
     available_organizations = Organization.query.all()
     organizations_list = [(o.id, o.name) for o in available_organizations]
     form = CustomerForm()
@@ -27,18 +24,15 @@ def customers_form():
 # Page for indexing customers
 
 @app.route("/customers", methods=["GET"])
-@login_required
+@login_required(role="ANY")
 def customers_index():
     return render_template("customers/list.html", customers=Customer.query.all())
 
 # Handles POST requests for adding a new customer
 
 @app.route("/customers", methods=["POST"])
-@login_required
+@login_required(role="ADMIN")
 def customers_create():
-    if not current_user.is_admin():
-        return login_manager.unauthorized()
-
     form = CustomerForm(request.form)
     available_organizations = Organization.query.all()
     form.organization_id.choices = [(o.id, o.name) for o in available_organizations]    
@@ -62,11 +56,8 @@ def customers_create():
 # Page for customer overview
 
 @app.route("/customers/<int:customer_id>", methods=["GET"])
-@login_required
+@login_required(role="ADMIN")
 def customers_details(customer_id):
-    if not current_user.is_admin():
-        return login_manager.unauthorized()
-
     page = request.args.get('page', 1, type=int)
     customer = Customer.query.get_or_404(customer_id)
     orders = Order.query.filter(Order.customer_id == customer.id).order_by(Order.date_created.desc()).paginate(page=page, per_page=8)
@@ -84,11 +75,8 @@ def customers_details(customer_id):
 # Handles POST requests for customer update
 
 @app.route("/customers/<int:customer_id>", methods=["POST"])
-@login_required
+@login_required(role="ADMIN")
 def customers_update(customer_id):
-    if not current_user.is_admin():
-        return login_manager.unauthorized()
-
     page = request.args.get('page', 1, type=int)
     form = CustomerForm(request.form)
     customer = Customer.query.get_or_404(customer_id)
@@ -117,11 +105,8 @@ def customers_update(customer_id):
 # Handles POST requests for blocking a customer
 
 @app.route("/customers/block/<int:customer_id>", methods=["POST"])
-@login_required
+@login_required(role="ADMIN")
 def customers_block(customer_id):
-    if not current_user.is_admin():
-        return login_manager.unauthorized()
-
     form = CustomerBlockForm(request.form)
 
     if not form.validate():
@@ -147,11 +132,8 @@ def customers_block(customer_id):
 # Handles customer deletion
 
 @app.route("/customers/delete/<int:customer_id>", methods=["POST"])
-@login_required
+@login_required(role="ADMIN")
 def customers_delete(customer_id):
-    if not current_user.is_admin():
-        return login_manager.unauthorized()
-
     customer = Customer.query.get_or_404(customer_id)
     db.session.delete(customer)
     db.session.commit()
@@ -159,7 +141,7 @@ def customers_delete(customer_id):
     return redirect(url_for("customers_index"))
 
 @app.route("/customers/search", methods=["POST"])
-@login_required
+@login_required(role="ANY")
 def customers_search():
     first_name = request.form.get("first_name").strip()
     last_name = request.form.get("last_name").strip()
@@ -175,7 +157,7 @@ def customers_search():
 # JSON data for front page customer firstname & lastname autocomplete
 
 @app.route("/customers/json")
-@login_required
+@login_required(role="ANY")
 def customers_json():
     available_customers = Customer.query.all()
     customers = [c.serialize for c in available_customers]

@@ -34,7 +34,6 @@ def register():
     form = RegisterForm(request.form)
 
     if not form.validate():
-        print("EI VALIDI")
         for fieldName, errorMessages in form.errors.items():
             for err in errorMessages:
                 print(err)
@@ -42,7 +41,6 @@ def register():
 
     user = User.query.filter_by(username=form.username.data).first()
     if user:
-        print("LÖYTY JO")
         for fieldName, errorMessages in form.errors.items():
             for err in errorMessages:
                 print(err)

@@ -1,6 +1,6 @@
 from flask import redirect, render_template, request, url_for
-from application import app, db
-from flask_login import login_required, current_user
+from application import app, db, login_required
+from flask_login import current_user
 from application.orders.forms import OrderForm
 from application.organizations.models import Organization
 from application.customers.models import Customer
@@ -9,7 +9,7 @@ from application.orders.models import Order, DrinkAmount, Drink
 # Home page
 
 @app.route("/", methods = ["GET"])
-@login_required
+@login_required(role="ANY")
 def home():
   available_organizations = Organization.query.all()
   organizations_list = [(o.id, o.name) for o in available_organizations]
@@ -32,7 +32,7 @@ def home():
 # Handles POST for adding new orders
 
 @app.route("/", methods=["POST"])
-@login_required
+@login_required(role="ANY")
 def create_order():
   form = OrderForm(request.form)
   available_organizations = Organization.query.all()
