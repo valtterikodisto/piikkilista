@@ -38,6 +38,20 @@ Salasana: `admin`
 3. Anna järjestölle nimi ja järjestön jäsenen maksimivelka (tämän ylittyessä piikki jäätyy, kunnes se maksetaan kokonaan)
 4. Klikkaa 'Lisää järjestö'
 
+### Järjestön tietojen päivitys
+1. Navigoi yläpalkista löytyvälle 'Järjestöt' -sivulle
+2. Paina haluamasi järjestön rivin oikeasta laidasta löytyvää 'Muokkaa' -nappia
+3. Täytä jokainen lomakkeen kenttä
+4. Klikkaa 'Päivitä tiedot', jolloin tiedot päivittyvät
+
+### Järjestön poisto
+1. Navigoi yläpalkista löytyvälle 'Järjestöt' -sivulle
+2. Paina haluamasi järjestön rivin oikeasta laidasta löytyvää 'Muokkaa' -nappia
+3. Klikkaa 'Poista järjestö'
+
+   HUOM! Poistamalla järjestön, poistat myös jokaisen järjestöön kuuluvan asiakkaan. 
+   Tällöin siis menetät myös jokaiseen asiakkaaseen liittyvät tiedot.
+
 ### Asiakkaiden lisäys
 1. Navigoi yläpalkista löytyvälle 'Asiakkaat' -sivulle
 2. Lisäyssivustolle pääset painamalla 'Lisää asiakas' -linkkiä
@@ -59,13 +73,15 @@ Salasana: `admin`
 1. Navigoi yläpalkista löytyvälle 'Asiakkaat' -sivulle
 2. Valitse haluamasi asiakas ja paina etunimen vasemmalla olevaa painiketta 'Profiili'
 3. Klikkaa 'Muokkaa käyttäjän tietoja' nappia ja täytä jokainen kenttä
-4. Klikkaa päivitä tiedot, jolloin tiedot päivittyvät
+4. Klikkaa 'Päivitä tiedot', jolloin tiedot päivittyvät
 
 ### Asiakkaan poisto
 1. Navigoi yläpalkista löytyvälle 'Asiakkaat' -sivulle
 2. Klikkaa haluamasi asiakkaan riviltä löytyvää 'Profiili' -painiketta
 3. Klikkaa 'Muokkaa käyttäjän tietoja' nappia
 4. Klikkaa 'Poista käyttäjä'
+
+   HUOM! Poistamalla asiakkaan, menetät kaikki asiakkaaseen liittyvät tiedot.
 
 ### Asiakkaan esto (pysyvä)
 1. Navigoi yläpalkista löytyvälle 'Asiakkaat' -sivulle
@@ -86,7 +102,7 @@ Salasana: `admin`
    kenttä asiakkaan syntymäpäivällä ja paina lähetä lomake uudelleen. 
    
 3. Lisää +/- painikkeilla juomia tilaukseen
-4. Mikäli asiakas tekee talletuksen, lisää se talletuskenttään
+4. Mikäli asiakas tekee talletuksen, lisää se talletuskenttään (talletus saa olla negatiivinen)
 5. Klikkaa 'Lisää ostos'
 
 ## Asennusohje
@@ -113,6 +129,16 @@ Normaalien käyttäjien lisäys taas tapahtuu rekisteröintisivulla: http://loca
 
 ## Muuta
 
+### Linkkejä
+
 [Käyttäjätarinat](https://github.com/valtterikodisto/piikkilista/blob/master/documentation/user_stories.md) <br />
 [Tietokantakaavio](https://github.com/valtterikodisto/piikkilista/tree/master/documentation/database.png) <br />
 [CREATE TABLE -lauseet](https://github.com/valtterikodisto/piikkilista/tree/master/documentation/create_table.md)
+
+### Miksi syntymäpäivä on kokonaisluku?
+Syntymäpäivän olisi helposti voinut toteuttaa myös tyyppinä DATE. Syntymäpäivän arvolla ei sinänsä ole väliä. Sen tarkoitus 
+on ainoastaan toimia helposti muistettavana "tunnisteena", mikäli järjestöön kuuluu useita samannimisiä asiakkaita.
+
+### Puuttuvat ominaisuudet
+Projektiin kaavailtiin alussa, että olisi helppoa muuttaa juomahinnastoa ja että käyttäjä pystyisi vaihtamaan salasanan. 
+Nämä ominaisuudet eivät kuitenkaan kerenneet tähän projektiin.

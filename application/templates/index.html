@@ -161,7 +161,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class="card" style="width: 18rem;">
+          <div class="card" style="width: 100%;">
             <ul class="list-group list-group-flush">
               {% for drink in drinks %}
               <li class="list-group-item">{{ drink.name }} {{ drink.get_price_in_euros() }} €</li>
@@ -190,15 +190,27 @@
       if (request.status === 200) {
         const jsonOptions = JSON.parse(request.responseText);
 
+        const first_names = []
+        const last_names = []
+
         for (let key in jsonOptions.customers_list) {
-          const first_name_option = document.createElement("option");
-          const last_name_option = document.createElement("option");
+          first_names.push(jsonOptions.customers_list[key].first_name)
+          last_names.push(jsonOptions.customers_list[key].last_name)
+        }
 
-          first_name_option.value = jsonOptions.customers_list[key].first_name;
-          last_name_option.value = jsonOptions.customers_list[key].last_name;
+        const distinct_first_names = [...new Set(first_names)]
+        const distinct_last_names = [... new Set(last_names)]
 
-          first_name_dataList.appendChild(first_name_option);
-          last_name_dataList.appendChild(last_name_option);
+        for (let index in distinct_first_names) {
+          const first_name_option = document.createElement("option")
+          first_name_option.value = distinct_first_names[index]
+          first_name_dataList.appendChild(first_name_option)
+        }
+
+        for (index in distinct_last_names) {
+          const last_name_option = document.createElement("option")
+          last_name_option.value = distinct_last_names[index]
+          last_name_dataList.appendChild(last_name_option)
         }
       } else {
         first_name_input.placeholder = "Dataa ei voitu ladata";

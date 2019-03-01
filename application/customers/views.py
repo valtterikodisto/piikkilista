@@ -26,7 +26,12 @@ def customers_form():
 @app.route("/customers", methods=["GET"])
 @login_required(role="ANY")
 def customers_index():
-    return render_template("customers/list.html", customers=Customer.query.all())
+    page = request.args.get('page', 1, type=int)
+    first_name = request.args.get('first_name', '', type=str)
+    last_name = request.args.get('last_name', '', type=str)
+
+    customers = Customer.query.filter(Customer.first_name.ilike("%"+first_name+"%")).filter(Customer.last_name.ilike("%"+last_name+"%")).paginate(page=page, per_page=10)
+    return render_template("customers/list.html", customers=customers, first_name=first_name, last_name=last_name)
 
 # Handles POST requests for adding a new customer
 
@@ -149,10 +154,8 @@ def customers_search():
 
     if not first_name and not last_name:
         return redirect(url_for('customers_index'))
-    else:
-        customers = Customer.query.filter(Customer.first_name.ilike("%"+first_name+"%")).filter(Customer.last_name.ilike("%"+last_name+"%"))
 
-    return render_template("customers/list.html", customers=customers)
+    return redirect(url_for('customers_index', first_name=first_name, last_name=last_name))
 
 # JSON data for front page customer firstname & lastname autocomplete
 

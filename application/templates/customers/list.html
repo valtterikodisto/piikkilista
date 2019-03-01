@@ -29,7 +29,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for customer in customers %}
+      {% for customer in customers.items %}
       <tr>
         <th scope="row">
           <a
@@ -47,5 +47,17 @@
       {% endfor %}
     </tbody>
   </table>
+  <h4 style="margin-bottom: 15px" class="display-5">Sivut</h4>
+  {% for page_num in customers.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+      {% if page_num %}
+          {% if customers.page == page_num %}
+              <a class="btn btn-primary mb-4" href="{{ url_for('customers_index', page=page_num, first_name=first_name, last_name=last_name) }}">{{ page_num }}</a>
+          {% else %}
+              <a class="btn btn-outline-primary mb-4" href="{{ url_for('customers_index', page=page_num, first_name=first_name, last_name=last_name) }}">{{ page_num }}</a>
+          {% endif %}
+      {% else %}
+          ...
+      {% endif %}
+  {% endfor %}
 </div>
 {% endblock %}

@@ -153,7 +153,7 @@
             {% endfor %}
         </tbody>
     </table>
-    <h4 style="margin-bottom: 15px" class="display-5">Sivut</h3>
+    <h4 style="margin-bottom: 15px" class="display-5">Sivut</h4>
     {% for page_num in orders.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
         {% if page_num %}
             {% if orders.page == page_num %}
