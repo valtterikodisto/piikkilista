@@ -10,29 +10,50 @@
 <br />
 
 
-| As | I want | So that |
-|----|--------|---------|
-| User | add a new purchase to a customer | I can log their balance |
-| User | deposit euros to customer's account | they can pay their debt
-| User | search for a customer | I can inform a customer about his/her balance |
-| Admin | add a new organization | only the organization that I approve can have customers |
-| Admin | add a new customer | only the customers that I approve can have an account |
-| Admin | block users | customers will not misbehave |
-| Admin | view customers purchase history | we can examine unclear situations |
+| # | As | I want | So that |
+|-|-|-|-|
+| 1 | User | add a new purchase to a customer | I can log their balance |
+| 2 | User | deposit euros to customer's account | they can pay their debt
+| 3 | User | search for a customer | I can inform a customer about his/her balance |
+| 4 | Admin | add a new organization | only the organization that I approve can have customers |
+| 5 | Admin | add a new customer | only the customers that I approve can have an account |
+| 6 | Admin | block users | customers will not misbehave |
+| 7 | Admin | view customers purchase history | we can examine unclear situations |
 
 ## SQL
+
+### #1
 ```SQL
-SELECT drink.name, SUM(drink_amount.amount) AS amount FROM customer
-INNER JOIN purchase ON purchase.customer_id = customer.id
-INNER JOIN drink_amount ON drink_amount.order_id = purchase.id
-INNER JOIN drink ON drink.id = drink_amount.drink_id
-WHERE customer.id = :[ID HERE]
-GROUP BY drink.name
-ORDER BY amount DESC
+INSERT INTO purchase (customer_id, user_id, total, deposit) VALUES (?, ?, ?, ?)
 ```
+### #2
 ```SQL
-SELECT AVG(purchase.total) AS average FROM organization
-INNER JOIN customer ON customer.organization_id = organization.id
+UPDATE customer
+SET customer.balance = ?
+WHERE customer.id = ?;
+```
+### #3
+```SQL
+SELECT * FROM customer
+WHERE customer.first_name LIKE '%?%' AND
+WHERE customer.last_name LIKE '%?%';
+```
+### #4
+```SQL
+INSERT INTO organizaton (name, limit) VALUES (?, ?);
+```
+### #5
+```SQL
+INSERT INTO customer (first_name, last_name, birthday, balance, organization_id)
+VALUES (?, ?, ?, ?, ?);
+```
+### #6
+```SQL
+INSERT INTO block (customer_id, date_end) VALUES (?, ?);
+```
+### #7
+```SQL
+SELECT purchase.date_created, purchase.total, purchase.deposit FROM customer
 INNER JOIN purchase ON purchase.customer_id = customer.id
-WHERE organization_id = [ID HERE]
+WHERE customer.id = ?;
 ```
