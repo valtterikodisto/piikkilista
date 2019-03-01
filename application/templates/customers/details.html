@@ -9,25 +9,25 @@
 
                 <button id="reveal_form_button" class="btn btn-secondary" onclick="revealCustomerEditForm()">Muokkaa käyttäjän tietoja</button>
                 <div id="customer_edit_section" style="display: none">
-                    <ul>
+                    <ul style="list-style-type: none">
                         {% for error in form.first_name.errors %}
-                        <li>{{ error }}</li>
+                        <li class="alert alert-danger" role="alert">{{ error }}</li>
                         {% endfor %}
             
                         {% for error in form.last_name.errors %}
-                        <li>{{ error }}</li>
+                        <li class="alert alert-danger" role="alert">{{ error }}</li>
                         {% endfor %}
             
                         {% for error in form.birthday.errors %}
-                        <li>{{ error }}</li>
+                        <li class="alert alert-danger" role="alert">{{ error }}</li>
                         {% endfor %}
             
                         {% for error in form.balance.errors %}
-                        <li>{{ error }}</li>
+                        <li class="alert alert-danger" role="alert">{{ error }}</li>
                         {% endfor %}
             
                         {% for error in form.organization_id.errors %}
-                        <li>{{ error }}</li>
+                        <li class="alert alert-danger" role="alert">{{ error }}</li>
                         {% endfor %}
                     </ul>
                     <form id ="customer_edit_form" method="POST" action="{{ url_for('customers_update', customer_id=customer.id) }}">
@@ -141,7 +141,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for order in customer.orders %}
+            {% for order in orders.items %}
             <tr>
                 <td>{{ order.date_created }}</td>
                 <td>{{ order.get_total_in_euros() }} €</td>
@@ -153,6 +153,18 @@
             {% endfor %}
         </tbody>
     </table>
+    <h4 style="margin-bottom: 15px" class="display-5">Sivut</h3>
+    {% for page_num in orders.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+            {% if orders.page == page_num %}
+                <a class="btn btn-primary mb-4" href="{{ url_for('customers_details', customer_id=customer.id, page=page_num) }}">{{ page_num }}</a>
+            {% else %}
+                <a class="btn btn-outline-primary mb-4" href="{{ url_for('customers_details', customer_id=customer.id, page=page_num) }}">{{ page_num }}</a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}
 </div>
 
 

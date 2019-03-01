@@ -1,25 +1,25 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<ul>
+<ul style="list-style-type: none">
     {% for error in form.first_name.errors %}
-    <li>{{ error }}</li>
+    <li class="alert alert-danger" role="alert">{{ error }}</li>
     {% endfor %}
 
     {% for error in form.last_name.errors %}
-    <li>{{ error }}</li>
+    <li class="alert alert-danger" role="alert">{{ error }}</li>
     {% endfor %}
 
     {% for error in form.birthday.errors %}
-    <li>{{ error }}</li>
+    <li class="alert alert-danger" role="alert">{{ error }}</li>
     {% endfor %}
 
     {% for error in form.balance.errors %}
-    <li>{{ error }}</li>
+    <li class="alert alert-danger" role="alert">{{ error }}</li>
     {% endfor %}
 
     {% for error in form.organization_id.errors %}
-    <li>{{ error }}</li>
+    <li class="alert alert-danger" role="alert">{{ error }}</li>
     {% endfor %}
 </ul>
 

@@ -4,6 +4,7 @@ from flask_login import login_required, current_user
 
 from application.customers.models import Customer, Block
 from application.organizations.models import Organization
+from application.orders.models import Order
 from application.customers.forms import CustomerForm, CustomerBlockForm
 
 from datetime import datetime
@@ -66,7 +67,9 @@ def customers_details(customer_id):
     if not current_user.is_admin():
         return login_manager.unauthorized()
 
+    page = request.args.get('page', 1, type=int)
     customer = Customer.query.get_or_404(customer_id)
+    orders = Order.query.filter(Order.customer_id == customer.id).order_by(Order.date_created.desc()).paginate(page=page, per_page=8)
     block_end_date = customer.get_block_status()
 
     form = CustomerForm()
@@ -76,7 +79,7 @@ def customers_details(customer_id):
 
     block_form = CustomerBlockForm()
 
-    return render_template("/customers/details.html", customer=customer, form=form, visibility="hidden", block_end_date=block_end_date, block_form=block_form)
+    return render_template("/customers/details.html", customer=customer, orders=orders, form=form, visibility="hidden", block_end_date=block_end_date, block_form=block_form)
 
 # Handles POST requests for customer update
 
@@ -86,16 +89,20 @@ def customers_update(customer_id):
     if not current_user.is_admin():
         return login_manager.unauthorized()
 
+    page = request.args.get('page', 1, type=int)
     form = CustomerForm(request.form)
     customer = Customer.query.get_or_404(customer_id)
+    orders = Order.query.filter(Order.customer_id == customer.id).order_by(Order.date_created.desc()).paginate(page=page, per_page=8)
     available_organizations = Organization.query.all()
     form.organization_id.choices = [(o.id, o.name) for o in available_organizations]
 
     if not form.validate():
         now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         user_block = Block.query.filter(Block.customer_id == customer_id).filter(Block.date_end >= now).order_by(Block.date_end.desc()).first()
+        block_form = CustomerBlockForm()
+        block_end_date = customer.get_block_status()
 
-        return render_template("/customers/details.html", customer=customer, form=form, visibility="visible", user_block=user_block, block_form=CustomerBlockForm())
+        return render_template("/customers/details.html", customer=customer, orders=orders, form=form, visibility="visible", block_end_date=block_end_date, user_block=user_block, block_form=block_form)
 
     customer.first_name = form.first_name.data.lower().capitalize()
     customer.last_name = form.last_name.data.lower().capitalize()
@@ -120,7 +127,12 @@ def customers_block(customer_id):
     if not form.validate():
         customer = Customer.query.get_or_404(customer_id)
         block_end_date = customer.get_block_status()
-        return render_template("/customers/details.html", customer=customer, block_end_date=block_end_date, form=form)
+        user_block = Block.query.filter(Block.customer_id == customer_id).filter(Block.date_end >= now).order_by(Block.date_end.desc()).first()
+
+        page = request.args.get('page', 1, type=int)
+        orders = Order.query.filter(Order.customer_id == customer.id).order_by(Order.date_created.desc()).paginate(page=page, per_page=8)
+
+        return render_template("/customers/details.html", customer=customer, orders=orders, user_block=user_block, block_end_date=block_end_date, form=form)
 
     new_block = Block (
         customer_id,

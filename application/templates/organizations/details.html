@@ -7,6 +7,15 @@
   <h3 class="display-5">Maksimivelka: {{ organization.get_limit() }} €</h3><br />
   <h3 class="display-5">Muokkaa järjestöä</h3>
 
+  <ul style="list-style-type: none">
+    {% for error in form.name.errors %}
+    <li class="alert alert-danger" role="alert">{{ error }}</li>
+    {% endfor %}
+    {% for error in form.limit.errors %}
+    <li class="alert alert-danger" role="alert">{{ error }}</li>
+    {% endfor %}
+  </ul>
+
   <form method="POST" action="{{ url_for('organizations_update', organization_id=organization.id) }}">
     {{ form.hidden_tag() }}
     <div class="form-group">
