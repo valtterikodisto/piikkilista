@@ -152,29 +152,29 @@
 </button>
 
 <div class="modal fade" id="price-list" tabindex="-1" role="dialog" aria-labelledby="price-list-label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="price-list-label">Hinnasto</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="price-list-label">Hinnasto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card" style="width: 100%;">
+          <ul class="list-group list-group-flush">
+            {% for drink in drinks %}
+            <li class="list-group-item">{{ drink.name }} {{ drink.get_price_in_euros() }} €</li>
+            {% endfor %}
+          </ul>
         </div>
-        <div class="modal-body">
-          <div class="card" style="width: 100%;">
-            <ul class="list-group list-group-flush">
-              {% for drink in drinks %}
-              <li class="list-group-item">{{ drink.name }} {{ drink.get_price_in_euros() }} €</li>
-              {% endfor %}
-            </ul>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Sulje</button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Sulje</button>
       </div>
     </div>
   </div>
+</div>
 <!-- Scripts -->
 <script>
   const first_name_dataList = document.getElementById("first_name_datalist");

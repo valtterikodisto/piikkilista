@@ -19,3 +19,6 @@ class OrderForm(BaseForm):
   whisky = IntegerField("Viski", default=0)
 
   deposit = DecimalField("Talletus", default=0)
+
+class DrinkForm(BaseForm):
+  price = DecimalField("Juoma", validators=[DataRequired(message="Hinta ei voi olla tyhjä"), NumberRange(min=0, max=100, message="Hinta tulee olla välillä 0 - 100€")])

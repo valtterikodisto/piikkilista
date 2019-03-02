@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<h3 class="display-5">Juomat</h3>
+
+{% for drink in drinks %}
+  <form class="form-inline" action="{{ url_for('drinks_update', drink_id=drink.id) }}" method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group mb-2">
+      <label for="price">{{ drink.name.capitalize() }} ({{ drink.get_price_in_euros() }} €)</label>
+    </div>
+    <div class="form-group mx-sm-3 mb-2">
+      <div class="input-group-prepend">
+        <div class="input-group-text">€</div>
+      </div>
+      {{ form.price(class_="form-control") }}
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">Päivitä</button>
+  </form>
+
+{% endfor %}
+
+{% endblock %}

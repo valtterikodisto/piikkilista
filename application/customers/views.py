@@ -30,7 +30,7 @@ def customers_index():
     first_name = request.args.get('first_name', '', type=str)
     last_name = request.args.get('last_name', '', type=str)
 
-    customers = Customer.query.filter(Customer.first_name.ilike("%"+first_name+"%")).filter(Customer.last_name.ilike("%"+last_name+"%")).order_by(Customer.organization_id).paginate(page=page, per_page=10)
+    customers = Customer.query.filter(Customer.first_name.ilike("%"+first_name+"%")).filter(Customer.last_name.ilike("%"+last_name+"%")).order_by(Customer.first_name).paginate(page=page, per_page=10)
     return render_template("customers/list.html", customers=customers, first_name=first_name, last_name=last_name)
 
 # Handles POST requests for adding a new customer

@@ -55,7 +55,7 @@ from application import views
 from application.customers import models, views
 from application.organizations import models, views
 from application.auth import models, views
-from application.orders import models
+from application.orders import models, views
 
 from application.auth.models import User
 

@@ -38,7 +38,7 @@ def create_order():
   available_organizations = Organization.query.all()
   form.organization_id.choices = [(o.id, o.name) for o in available_organizations]
 
-  drinks = Drink.query.all()
+  drinks = Drink.query.order_by(Drink.id).all()
 
   if not form.validate():
     print(form.errors)
